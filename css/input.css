@@ -10,21 +10,31 @@
 
 @layer components {
   .app-title {
-    @apply text-2xl font-bold -m-2;
-  }
-
-  .light .app-title {
-    @apply text-primary-600;
+    @apply text-3xl font-bold;
+    color: var(--primary-color, theme('colors.primary.600'));
   }
 
   .dark .app-title {
-    @apply text-blue-400;
+    color: var(--primary-color-dark, theme('colors.blue.400'));
+  }
+
+  .light .app-title {
+    color: var(--primary-color, theme('colors.primary.600'));
   }
 
   .birth-year-input {
     @apply px-3 h-[38px] rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-blue-500;
   }
-  
+
+  .birth-year-input:focus {
+    --tw-ring-color: var(--primary-color, theme('colors.primary.600'));
+    --tw-ring-opacity: 0.5;
+  }
+
+  .dark .birth-year-input:focus {
+    --tw-ring-color: var(--primary-color-dark, theme('colors.blue.500'));
+  }
+
   .dark .birth-year-input {
     @apply bg-gray-800 border-gray-700 text-gray-100;
   }
@@ -54,7 +64,7 @@
   }
 
   .toggle-button[aria-checked="true"] {
-    @apply bg-primary-600;
+    background-color: var(--primary-color, theme('colors.primary.600'));
   }
 
   .dark .toggle-button {
@@ -62,7 +72,7 @@
   }
 
   .dark .toggle-button[aria-checked="true"] {
-    @apply bg-blue-500;
+    background-color: var(--primary-color-dark, theme('colors.blue.500'));
   }
 
   .light .toggle-button {
@@ -70,7 +80,7 @@
   }
 
   .light .toggle-button[aria-checked="true"] {
-    @apply bg-primary-600;
+    background-color: var(--primary-color, theme('colors.primary.600'));
   }
 
   .toggle-slider {
@@ -83,26 +93,41 @@
   
   .stats-caption {
     @apply text-sm font-medium;
+    color: var(--primary-color, theme('colors.primary.600'));
   }
 
   .dark .stats-caption {
-    @apply text-sm font-medium text-gray-400;
-  }
-
-  .light .stats-caption {
-    @apply text-sm font-medium text-gray-700;
+    color: var(--primary-color-dark, theme('colors.blue.400'));
   }
 
   .stats-value {
-    @apply text-xl font-bold;
-  }
-
-  .light .stats-value {
-    @apply text-xl font-bold text-primary-600;
+    @apply text-2xl font-semibold;
+    color: var(--primary-color, theme('colors.primary.600'));
   }
 
   .dark .stats-value {
-    @apply text-xl font-bold text-blue-400;
+    color: var(--primary-color-dark, theme('colors.blue.400'));
+  }
+
+  .current-age, .life-progress, .time-remaining {
+    color: var(--primary-color, theme('colors.primary.600'));
+  }
+
+  .dark .current-age, 
+  .dark .life-progress, 
+  .dark .time-remaining {
+    color: var(--primary-color-dark, theme('colors.blue.400'));
+  }
+
+  #currentAge, #lifeProgress, #timeRemaining {
+    color: var(--primary-color, theme('colors.primary.600'));
+    @apply font-semibold;
+  }
+
+  .dark #currentAge, 
+  .dark #lifeProgress, 
+  .dark #timeRemaining {
+    color: var(--primary-color-dark, theme('colors.blue.400'));
   }
 
   .motivational-message {
@@ -115,6 +140,24 @@
 
   .dark .motivational-message {
     @apply text-blue-400;
+  }
+
+  .motivational-text {
+    @apply text-2xl font-semibold italic text-center;
+    color: var(--primary-color, theme('colors.primary.600'));
+  }
+
+  .dark .motivational-text {
+    color: var(--primary-color-dark, theme('colors.blue.400'));
+  }
+
+  #motivationalMessage {
+    color: var(--primary-color, theme('colors.primary.600'));
+    @apply font-medium;
+  }
+
+  .dark #motivationalMessage {
+    color: var(--primary-color-dark, theme('colors.blue.400'));
   }
 
   .dots-container {
@@ -152,15 +195,15 @@
   }
 
   .dot-filled {
-    @apply bg-primary-500;
+    background-color: var(--primary-color, theme('colors.primary.500'));
   }
 
   .dark .dot-filled {
-    @apply bg-blue-400;
+    background-color: var(--primary-color-dark, theme('colors.blue.400'));
   }
 
   .light .dot-filled {
-    @apply bg-primary-600;
+    background-color: var(--primary-color, theme('colors.primary.600'));
   }
 
   @screen sm {
@@ -187,30 +230,6 @@
     }
   }
   
-  .motivational-text {
-    @apply text-2xl font-semibold italic text-center;
-  }
-
-  .dark .motivational-text {
-    @apply text-blue-400;
-  }
-
-  .light .motivational-text {
-    @apply text-primary-600;
-  }
-
-  #motivationalMessage {
-    @apply font-medium;
-  }
-
-  .light #motivationalMessage {
-    @apply text-primary-600;
-  }
-
-  .dark #motivationalMessage {
-    @apply text-blue-400;
-  }
-
   .action-button {
     @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 text-white font-medium text-sm;
   }
@@ -233,6 +252,48 @@
   
   .light .footer-link {
     @apply text-gray-600 hover:text-gray-900;
+  }
+
+  /* Color select with standard background but theme-colored ring */
+  .color-select {
+    @apply h-[38px] rounded-lg border focus:outline-none focus:ring-2;
+    background-color: theme('colors.white');
+    border-color: theme('colors.gray.300');
+    color: theme('colors.gray.900');
+    text-align: center;
+  }
+
+  .dark .color-select {
+    background-color: theme('colors.gray.800');
+    border-color: theme('colors.gray.700');
+    color: theme('colors.gray.100');
+  }
+
+  .color-select:focus {
+    --tw-ring-color: var(--primary-color, theme('colors.primary.600'));
+    --tw-ring-opacity: 0.5;
+  }
+  
+  .dark .color-select:focus {
+    --tw-ring-color: var(--primary-color-dark, theme('colors.blue.500'));
+  }
+
+  .color-select-container {
+    @apply relative z-10 ml-2;
+  }
+
+  @media (max-width: 640px) {
+    .color-select-container {
+      @apply fixed top-20 right-2;
+    }
+
+    .color-select {
+      @apply w-[80px];
+    }
+  }
+
+  .app-logo {
+    @apply w-8 h-8;
   }
 
   body {

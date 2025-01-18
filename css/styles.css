@@ -605,20 +605,18 @@ body {
 }
 
 .app-title {
-  margin: -0.5rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
   font-weight: 700;
-}
-
-.light .app-title {
-  --tw-text-opacity: 1;
-  color: rgb(22 163 74 / var(--tw-text-opacity, 1));
+  color: var(--primary-color, #16a34a);
 }
 
 .dark .app-title {
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
+  color: var(--primary-color-dark, #60a5fa);
+}
+
+.light .app-title {
+  color: var(--primary-color, #16a34a);
 }
 
 .birth-year-input {
@@ -659,6 +657,15 @@ body {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity, 1));
   }
+}
+
+.birth-year-input:focus {
+  --tw-ring-color: var(--primary-color, #16a34a);
+  --tw-ring-opacity: 0.5;
+}
+
+.dark .birth-year-input:focus {
+  --tw-ring-color: var(--primary-color-dark, #3b82f6);
 }
 
 .dark .birth-year-input {
@@ -739,8 +746,7 @@ body {
 }
 
 .toggle-button[aria-checked="true"] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+  background-color: var(--primary-color, #16a34a);
 }
 
 .dark .toggle-button {
@@ -749,8 +755,7 @@ body {
 }
 
 .dark .toggle-button[aria-checked="true"] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
+  background-color: var(--primary-color-dark, #3b82f6);
 }
 
 .light .toggle-button {
@@ -759,8 +764,7 @@ body {
 }
 
 .light .toggle-button[aria-checked="true"] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+  background-color: var(--primary-color, #16a34a);
 }
 
 .toggle-slider {
@@ -793,44 +797,39 @@ body {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
+  color: var(--primary-color, #16a34a);
 }
 
 .dark .stats-caption {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
-
-.light .stats-caption {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+  color: var(--primary-color-dark, #60a5fa);
 }
 
 .stats-value {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 700;
-}
-
-.light .stats-value {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 700;
-  --tw-text-opacity: 1;
-  color: rgb(22 163 74 / var(--tw-text-opacity, 1));
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  color: var(--primary-color, #16a34a);
 }
 
 .dark .stats-value {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 700;
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
+  color: var(--primary-color-dark, #60a5fa);
+}
+
+.dark .current-age, 
+  .dark .life-progress, 
+  .dark .time-remaining {
+  color: var(--primary-color-dark, #60a5fa);
+}
+
+#currentAge, #lifeProgress, #timeRemaining {
+  color: var(--primary-color, #16a34a);
+  font-weight: 600;
+}
+
+.dark #currentAge, 
+  .dark #lifeProgress, 
+  .dark #timeRemaining {
+  color: var(--primary-color-dark, #60a5fa);
 }
 
 .motivational-message {
@@ -847,6 +846,19 @@ body {
 .dark .motivational-message {
   --tw-text-opacity: 1;
   color: rgb(96 165 250 / var(--tw-text-opacity, 1));
+}
+
+.dark .motivational-text {
+  color: var(--primary-color-dark, #60a5fa);
+}
+
+#motivationalMessage {
+  color: var(--primary-color, #16a34a);
+  font-weight: 500;
+}
+
+.dark #motivationalMessage {
+  color: var(--primary-color-dark, #60a5fa);
 }
 
 .dots-container {
@@ -902,18 +914,15 @@ body {
 }
 
 .dot-filled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
+  background-color: var(--primary-color, #22c55e);
 }
 
 .dark .dot-filled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(96 165 250 / var(--tw-bg-opacity, 1));
+  background-color: var(--primary-color-dark, #60a5fa);
 }
 
 .light .dot-filled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+  background-color: var(--primary-color, #16a34a);
 }
 
 @media (min-width: 640px) {
@@ -938,30 +947,6 @@ body {
     height: 10px;
     margin: 5px;
   }
-}
-
-.dark .motivational-text {
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
-}
-
-.light .motivational-text {
-  --tw-text-opacity: 1;
-  color: rgb(22 163 74 / var(--tw-text-opacity, 1));
-}
-
-#motivationalMessage {
-  font-weight: 500;
-}
-
-.light #motivationalMessage {
-  --tw-text-opacity: 1;
-  color: rgb(22 163 74 / var(--tw-text-opacity, 1));
-}
-
-.dark #motivationalMessage {
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
 }
 
 .dark .action-button {
@@ -1008,6 +993,67 @@ body {
 .light .footer-link:hover {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+}
+
+/* Color select with standard background but theme-colored ring */
+
+.color-select {
+  height: 38px;
+  border-radius: 0.5rem;
+  border-width: 1px;
+}
+
+.color-select:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.color-select {
+  background-color: #fff;
+  border-color: #d1d5db;
+  color: #111827;
+  text-align: center;
+}
+
+.dark .color-select {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+.color-select:focus {
+  --tw-ring-color: var(--primary-color, #16a34a);
+  --tw-ring-opacity: 0.5;
+}
+
+.dark .color-select:focus {
+  --tw-ring-color: var(--primary-color-dark, #3b82f6);
+}
+
+.color-select-container {
+  position: relative;
+  z-index: 10;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .color-select-container {
+    position: fixed;
+    top: 5rem;
+    right: 0.5rem;
+  }
+
+  .color-select {
+    width: 80px;
+  }
+}
+
+.app-logo {
+  height: 2rem;
+  width: 2rem;
 }
 
 body {
@@ -1133,10 +1179,6 @@ footer a {
   height: 1.5rem;
 }
 
-.h-8 {
-  height: 2rem;
-}
-
 .min-h-\[200px\] {
   min-height: 200px;
 }
@@ -1147,10 +1189,6 @@ footer a {
 
 .w-6 {
   width: 1.5rem;
-}
-
-.w-8 {
-  width: 2rem;
 }
 
 .max-w-5xl {
@@ -1378,14 +1416,6 @@ footer a {
 
   .md\:justify-start {
     justify-content: flex-start;
-  }
-
-  .md\:justify-between {
-    justify-content: space-between;
-  }
-
-  .md\:text-left {
-    text-align: left;
   }
 }
 

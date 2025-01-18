@@ -4,6 +4,7 @@ class LifeDotsApp {
             birthYear: null,
             lifeExpectancy: CONFIG.DEFAULT_LIFE_EXPECTANCY,
             theme: ThemeUtils.getCurrentTheme(),
+            customColor: localStorage.getItem('customColor') || 'default',
             lifestyle: {
                 healthy: false,
                 exercise: false,
@@ -20,6 +21,7 @@ class LifeDotsApp {
             motivationalMessage: document.getElementById('motivationalMessage'),
             dotsContainer: document.getElementById('dotsContainer'),
             themeToggle: document.getElementById('themeToggle'),
+            colorTheme: document.getElementById('colorTheme'),
             toggleHealthy: document.getElementById('toggleHealthy'),
             toggleExercise: document.getElementById('toggleExercise'),
             toggleDrink: document.getElementById('toggleDrink'),
@@ -35,6 +37,11 @@ class LifeDotsApp {
         await this.detectLocation();
         this.loadSavedPreferences();
         ThemeUtils.applyTheme(this.state.theme);
+        
+        // Set initial color theme
+        if (this.elements.colorTheme) {
+            this.elements.colorTheme.value = this.state.customColor;
+        }
         
         // Generate initial dots visualization
         this.generateDots(0);
@@ -78,6 +85,9 @@ class LifeDotsApp {
                 }
             });
         }
+        if (savedPrefs.customColor) {
+            this.state.customColor = savedPrefs.customColor;
+        }
     }
 
     calculateLifeExpectancy() {
@@ -104,6 +114,15 @@ class LifeDotsApp {
             this.state.theme = newTheme;
             this.savePreferences();
         });
+
+        // Color theme change listener
+        if (this.elements.colorTheme) {
+            this.elements.colorTheme.addEventListener('change', (e) => {
+                ThemeUtils.applyCustomColor(e.target.value);
+                this.state.customColor = e.target.value;
+                this.savePreferences();
+            });
+        }
 
         // Lifestyle toggles
         Object.entries(CONFIG.LIFESTYLE_MODIFIERS).forEach(([key, config]) => {
@@ -144,7 +163,8 @@ class LifeDotsApp {
         Storage.save({
             birthYear: this.state.birthYear,
             theme: this.state.theme,
-            lifestyle: this.state.lifestyle
+            lifestyle: this.state.lifestyle,
+            customColor: this.state.customColor
         });
     }
 
@@ -259,6 +279,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('toggleExercise').checked = savedPrefs.lifestyle.exercise || false;
             document.getElementById('toggleDrink').checked = savedPrefs.lifestyle.drink || false;
             document.getElementById('toggleSmoke').checked = savedPrefs.lifestyle.smoke || false;
+        }
+        if (savedPrefs.customColor) {
+            document.getElementById('colorTheme').value = savedPrefs.customColor;
         }
         
         // Update visualization immediately if birth year exists

@@ -33,6 +33,10 @@ const ThemeUtils = {
             root.style.colorScheme = 'light';
         }
 
+        // Apply custom color theme if exists
+        const customColor = localStorage.getItem('customColor') || 'default';
+        this.applyCustomColor(customColor);
+
         // Update icons
         const moonIcon = document.getElementById('moonIcon');
         const sunIcon = document.getElementById('sunIcon');
@@ -46,6 +50,38 @@ const ThemeUtils = {
 
         // Store theme
         localStorage.setItem('theme', theme);
+    },
+
+    applyCustomColor(color) {
+        const root = document.documentElement;
+        if (color === 'default') {
+            root.style.removeProperty('--primary-color');
+            root.style.removeProperty('--primary-color-dark');
+        } else {
+            root.style.setProperty('--primary-color', color);
+            // Create a darker version for dark mode
+            const darkerColor = this.adjustColorBrightness(color, -20);
+            root.style.setProperty('--primary-color-dark', darkerColor);
+        }
+        localStorage.setItem('customColor', color);
+    },
+
+    adjustColorBrightness(hex, percent) {
+        // Convert hex to RGB
+        let r = parseInt(hex.substring(1,3), 16);
+        let g = parseInt(hex.substring(3,5), 16);
+        let b = parseInt(hex.substring(5,7), 16);
+
+        // Adjust brightness
+        r = Math.max(0, Math.min(255, r + (r * percent / 100)));
+        g = Math.max(0, Math.min(255, g + (g * percent / 100)));
+        b = Math.max(0, Math.min(255, b + (b * percent / 100)));
+
+        // Convert back to hex
+        return '#' + 
+            Math.round(r).toString(16).padStart(2, '0') +
+            Math.round(g).toString(16).padStart(2, '0') +
+            Math.round(b).toString(16).padStart(2, '0');
     },
 
     toggleTheme() {
