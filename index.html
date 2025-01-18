@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LifeDots.app - Visualize Your Life Timeline</title>
+    <meta
+      name="description"
+      content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline."
+    />
+    <meta
+      name="keywords"
+      content="life visualization, timeline, life expectancy, lifestyle tracker, personal development"
+    />
+    <meta name="author" content="LifeDots.app" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lifedots.app/" />
+    <meta
+      property="og:title"
+      content="LifeDots.app - Visualize Your Life Timeline"
+    />
+    <meta
+      property="og:description"
+      content="Interactive visualization of your life timeline. See how lifestyle choices affect your journey."
+    />
+    <meta
+      property="og:image"
+      content="https://lifedots.app/assets/og-image.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://lifedots.app/" />
+    <meta
+      property="twitter:title"
+      content="LifeDots.app - Visualize Your Life Timeline"
+    />
+    <meta
+      property="twitter:description"
+      content="Interactive visualization of your life timeline. See how lifestyle choices affect your journey."
+    />
+    <meta
+      property="twitter:image"
+      content="https://lifedots.app/assets/twitter-image.png"
+    />
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  </head>
+  <body class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+    <div class="fixed top-4 right-4 z-50">
+      <button id="themeToggle" class="p-2 rounded-full transition-colors">
+        <svg
+          id="sunIcon"
+          class="w-6 h-6 hidden text-primary-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          />
+        </svg>
+        <svg
+          id="moonIcon"
+          class="w-6 h-6 text-gray-200"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Compact Header Section -->
+    <div class="p-4 transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+      <div class="container mx-auto max-w-5xl px-4">
+        <div class="flex flex-col gap-4">
+          <!-- Header and Controls -->
+           
+          <div class="flex flex-col md:flex-row items-center gap-4">
+            <div class="flex-none">
+              <h1 class="app-title">LifeDots.app</h1>
+            </div>
+            <div class="flex-1 flex flex-wrap items-center gap-2">
+              <div class="flex items-center gap-0.5">
+                <input
+                  type="number"
+                  id="birthYear"
+                  class="birth-year-input"
+                  placeholder="Year"
+                  min="1900"
+                  max="2024"
+                />
+              </div>
+
+              <div class="flex items-center justify-start gap-0.5">
+                <div class="toggle-container" title="Healthy diet adds 5 years">
+                  <span class="toggle-label">
+                    <span class="toggle-icon">🥗</span>
+                  </span>
+                  <button role="switch" aria-checked="false" id="toggleHealthy" class="toggle-button">
+                    <span class="toggle-slider"></span>
+                  </button>
+                </div>
+                <div class="toggle-container" title="Regular exercise adds 3 years">
+                  <span class="toggle-label">
+                    <span class="toggle-icon">🏃</span>
+                  </span>
+                  <button role="switch" aria-checked="false" id="toggleExercise" class="toggle-button">
+                    <span class="toggle-slider"></span>
+                  </button>
+                </div>
+                <div class="toggle-container" title="Regular drinking reduces life by 2 years">
+                  <span class="toggle-label">
+                    <span class="toggle-icon">🍺</span>
+                  </span>
+                  <button role="switch" aria-checked="false" id="toggleDrink" class="toggle-button">
+                    <span class="toggle-slider"></span>
+                  </button>
+                </div>
+                <div class="toggle-container" title="Smoking reduces life by 10 years">
+                  <span class="toggle-label">
+                    <span class="toggle-icon">🚬</span>
+                  </span>
+                  <button role="switch" aria-checked="false" id="toggleSmoke" class="toggle-button">
+                    <span class="toggle-slider"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Statistics -->
+          <div class="flex flex-wrap gap-4 justify-between mt-4">
+            <div class="text-center flex-1">
+              <h3 class="stats-caption">Current Age</h3>
+              <p id="currentAge" class="stats-value">-</p>
+            </div>
+            <div class="text-center flex-1">
+              <h3 class="stats-caption">Life Progress</h3>
+              <p id="lifeProgress" class="stats-value">-</p>
+            </div>
+            <div class="text-center flex-1">
+              <h3 class="stats-caption">Time Remaining</h3>
+              <p id="timeRemaining" class="stats-value">-</p>
+            </div>
+          </div>
+          <p id="motivationalMessage" class="motivational-text text-center">-</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visualization Area -->
+    <div class="flex-1 h-[calc(100vh-20rem)] p-4 dark:bg-gray-900 bg-white">
+      <div class="container mx-auto max-w-5xl">
+        <div
+          id="dotsContainer"
+          class="dots-container bg-white dark:bg-gray-900"
+        >
+          <!-- Dots will be generated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="py-6 px-4 mt-8 border-t dark:border-gray-800 border-gray-200"
+    >
+      <div class="container mx-auto max-w-5xl">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <div class="text-sm dark:text-gray-400 text-gray-500">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            LifeDots.app - Visualize Your Life
+            Timeline&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Made with l❤️ve by
+            <a href="https://rpaby.pw/" target="_blank" class="author-link"
+              >rpaby.pw</a
+            >.
+          </div>
+          <div class="flex gap-4 text-sm">
+            <a href="#" class="footer-link">About</a>
+            <a href="#" class="footer-link">Privacy</a>
+            <a href="#" class="footer-link">Terms</a>
+            <a
+              href="https://github.com/yourusername/lifedots"
+              target="_blank"
+              class="footer-link"
+              >GitHub</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

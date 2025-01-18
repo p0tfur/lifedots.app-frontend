@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .dot {
+    @apply inline-block rounded-full;
+    width: 4px;
+    height: 4px;
+    margin: 3px;
+  }
+
+  .dot.filled {
+    @apply bg-primary-500;
+  }
+
+  .dark .dot.filled {
+    @apply bg-blue-400;
+  }
+
+  .dot:not(.filled) {
+    @apply border bg-transparent;
+  }
+
+  .light .dot:not(.filled) {
+    @apply border-gray-300;
+  }
+  
+  .dark .dot:not(.filled) {
+    @apply border-gray-700;
+  }
+  
+  @screen md {
+    .dot {
+      width: 6px;
+      height: 6px;
+      margin: 4px;
+    }
+  }
+  
+  @screen lg {
+    .dot {
+      width: 10px;
+      height: 10px;
+      margin: 6px;
+    }
+  }
+  
+  .dots-container {
+    @apply leading-none whitespace-normal text-left p-4 rounded-lg transition-colors duration-300;
+  }
+  
+  .dark .dots-container {
+    @apply bg-gray-800;
+  }
+
+  .light .dots-container {
+    @apply bg-white shadow-sm;
+  }
+  
+  .toggle-container {
+    @apply inline-flex items-center gap-0.5 px-1 py-0.5 rounded-lg transition-colors duration-300 w-auto;
+  }
+  
+  .dark .toggle-container {
+    @apply bg-gray-800 text-gray-200;
+  }
+  
+  .light .toggle-container {
+    @apply bg-white text-gray-700 border border-gray-200 shadow-sm;
+  }
+
+  .toggle-button {
+    @apply relative inline-flex h-5 w-9 flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 ease-in-out bg-gray-200;
+  }
+
+  .toggle-button[aria-checked="true"] {
+    @apply bg-primary-600;
+  }
+
+  .dark .toggle-button {
+    @apply bg-gray-700;
+  }
+
+  .dark .toggle-button[aria-checked="true"] {
+    @apply bg-blue-500;
+  }
+
+  .toggle-slider {
+    @apply pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform ring-0 transition-transform duration-200 ease-in-out translate-x-0;
+  }
+
+  .toggle-button[aria-checked="true"] .toggle-slider {
+    @apply translate-x-4;
+  }
+  
+  .toggle-label {
+    @apply text-base font-medium truncate flex items-center justify-center;
+  }
+
+  .toggle-icon {
+    @apply text-lg leading-none;
+  }
+
+  .birth-year-input {
+    @apply w-24 md:w-28 px-1.5 py-0.5 text-base rounded-lg border transition-colors duration-300;
+  }
+  
+  .dark .birth-year-input {
+    @apply bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-400 focus:bg-gray-800;
+  }
+  
+  .light .birth-year-input {
+    @apply bg-white border-gray-200 text-gray-900 placeholder-gray-500;
+  }
+
+  .stats-value {
+    @apply text-2xl font-bold;
+  }
+
+  .dark .stats-value {
+    @apply text-blue-400;
+  }
+
+  .light .stats-value {
+    @apply text-primary-600;
+  }
+
+  .stats-caption {
+    @apply text-sm font-medium;
+  }
+
+  .dark .stats-caption {
+    @apply text-gray-400;
+  }
+
+  .light .stats-caption {
+    @apply text-gray-600;
+  }
+
+  .motivational-text {
+    @apply text-2xl font-semibold italic text-center;
+  }
+
+  .dark .motivational-text {
+    @apply text-blue-400;
+  }
+
+  .light .motivational-text {
+    @apply text-primary-600;
+  }
+
+  .app-title {
+    @apply text-3xl font-bold;
+  }
+
+  .dark .app-title {
+    @apply text-blue-400;
+  }
+
+  .light .app-title {
+    @apply text-primary-600;
+  }
+
+  .action-button {
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 text-white font-medium text-sm;
+  }
+  
+  .dark .action-button {
+    @apply bg-blue-500 hover:bg-blue-600;
+  }
+  
+  .light .action-button {
+    @apply bg-primary-500 hover:bg-primary-600 shadow-sm hover:shadow-md;
+  }
+
+  .footer-link {
+    @apply transition-colors duration-200;
+  }
+  
+  .dark .footer-link {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+  
+  .light .footer-link {
+    @apply text-gray-600 hover:text-primary-700;
+  }
+}
