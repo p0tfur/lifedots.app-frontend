@@ -125,9 +125,10 @@ const LocationUtils = {
         const savedLocation = localStorage.getItem('lifedots-location');
         if (savedLocation) {
             const locationData = JSON.parse(savedLocation);
+            const lifeExpectancy = this.getLifeExpectancy(locationData.countryCode);
             return {
                 country: locationData.country,
-                lifeExpectancy: this.getLifeExpectancy(locationData.countryCode)
+                lifeExpectancy: lifeExpectancy
             };
         }
 
@@ -169,9 +170,11 @@ const LocationUtils = {
                 countryCode: data.countryCode
             }));
 
+            const lifeExpectancy = this.getLifeExpectancy(data.countryCode);
+
             return {
                 country: data.country,
-                lifeExpectancy: this.getLifeExpectancy(data.countryCode)
+                lifeExpectancy: lifeExpectancy
             };
         } catch (error) {
             console.error('Error detecting country:', error);

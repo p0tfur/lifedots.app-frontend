@@ -69,39 +69,26 @@ class LifeDotsApp {
 
     loadSavedPreferences() {
         const savedPrefs = Storage.get();
-        if (savedPrefs.birthYear) {
-            this.state.birthYear = savedPrefs.birthYear;
-            this.elements.birthYear.value = savedPrefs.birthYear;
-        }
-        if (savedPrefs.theme) {
-            this.state.theme = savedPrefs.theme;
-        }
-        if (savedPrefs.lifestyle) {
-            this.state.lifestyle = savedPrefs.lifestyle;
-            Object.entries(this.state.lifestyle).forEach(([key, value]) => {
-                const element = this.elements[`toggle${key.charAt(0).toUpperCase() + key.slice(1)}`];
-                if (element) {
-                    element.setAttribute('aria-checked', value.toString());
-                }
-            });
-        }
-        if (savedPrefs.customColor) {
-            this.state.customColor = savedPrefs.customColor;
+        if (savedPrefs) {
+            this.state = { ...this.state, ...savedPrefs };
         }
     }
 
     calculateLifeExpectancy() {
-        let baseExpectancy = CONFIG.DEFAULT_LIFE_EXPECTANCY;
-        
+        let expectancy = this.state.baseLifeExpectancy || CONFIG.DEFAULT_LIFE_EXPECTANCY;
+
         // Apply lifestyle modifiers
-        Object.entries(this.state.lifestyle).forEach(([key, isActive]) => {
-            if (isActive) {
-                baseExpectancy += CONFIG.LIFESTYLE_MODIFIERS[key].years;
-            }
-        });
+        if (this.state.lifestyle.healthy) expectancy += CONFIG.LIFESTYLE_MODIFIERS.healthy.years;
+        if (this.state.lifestyle.exercise) expectancy += CONFIG.LIFESTYLE_MODIFIERS.exercise.years;
+        if (this.state.lifestyle.drink) expectancy += CONFIG.LIFESTYLE_MODIFIERS.drink.years;
+        if (this.state.lifestyle.smoke) expectancy += CONFIG.LIFESTYLE_MODIFIERS.smoke.years;
+
+        this.state.lifeExpectancy = Math.max(expectancy, 1); // Ensure minimum of 1 year
         
-        this.state.lifeExpectancy = Math.max(baseExpectancy, 1); // Ensure minimum of 1 year
-        return this.state.lifeExpectancy;
+        // Update visualization if birthYear is set
+        if (this.state.birthYear) {
+            this.updateVisualization();
+        }
     }
 
     attachEventListeners() {
@@ -133,9 +120,8 @@ class LifeDotsApp {
                     toggle.setAttribute('aria-checked', (!isChecked).toString());
                     this.state.lifestyle[key] = !isChecked;
                     
-                    // Recalculate life expectancy and update visualization
+                    // Update state and save preferences
                     this.calculateLifeExpectancy();
-                    this.handleUpdate();
                     this.savePreferences();
                 });
             }
