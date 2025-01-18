@@ -1,5 +1,5 @@
 const CONFIG = {
-    DEFAULT_LIFE_EXPECTANCY: 80,
+    DEFAULT_LIFE_EXPECTANCY: 85,
     DOTS_PER_YEAR: 12, // One dot per month
     STORAGE_KEY: 'lifedots-prefs',
     LIFESTYLE_MODIFIERS: {
@@ -57,7 +57,7 @@ const CONFIG = {
         lg: 1024,
         xl: 1280
     },
-    IP_API_URL: 'https://ipapi.co/json/',
+    IP_API_URL: 'http://ip-api.com/json/',
     THEME_CLASSES: {
         light: {
             bg: 'bg-white',

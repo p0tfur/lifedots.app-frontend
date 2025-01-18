@@ -2,40 +2,47 @@
   "name": "LifeDots.app",
   "short_name": "LifeDots",
   "description": "Visualize your life timeline with interactive dots",
-  "start_url": "./",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
   "icons": [
     {
-      "src": "assets/favicon-16x16.png",
+      "src": "/assets/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/favicon-32x32.png",
+      "src": "/assets/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/apple-touch-icon.png",
+      "src": "/assets/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "assets/screenshot-desktop.png",
+      "src": "/assets/screenshot-desktop.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
       "label": "LifeDots Desktop View"
     },
     {
-      "src": "assets/screenshot-mobile.png",
+      "src": "/assets/screenshot-mobile.png",
       "sizes": "750x1334",
       "type": "image/png",
       "label": "LifeDots Mobile View"

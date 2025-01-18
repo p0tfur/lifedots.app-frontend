@@ -121,12 +121,57 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 // Country detection utilities
 const LocationUtils = {
     async detectCountry() {
-        try {
-            const response = await fetch(CONFIG.IP_API_URL);
-            const data = await response.json();
+        // Check localStorage first
+        const savedLocation = localStorage.getItem('lifedots-location');
+        if (savedLocation) {
+            const locationData = JSON.parse(savedLocation);
             return {
-                country: data.country_name,
-                lifeExpectancy: this.getLifeExpectancy(data.country_code)
+                country: locationData.country,
+                lifeExpectancy: this.getLifeExpectancy(locationData.countryCode)
+            };
+        }
+
+        // If not in localStorage, fetch from API
+        try {
+            // Using fields parameter to only get what we need
+            const response = await fetch(`${CONFIG.IP_API_URL}?fields=status,message,country,countryCode`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            // Check rate limiting headers
+            const requestsRemaining = response.headers.get('X-Rl');
+            const timeToReset = response.headers.get('X-Ttl');
+            
+            if (requestsRemaining === '0') {
+                console.warn(`API rate limit reached. Reset in ${timeToReset} seconds`);
+            }
+
+            if (response.status === 429) {
+                throw new Error('Rate limit exceeded');
+            }
+            
+            if (!response.ok) {
+                throw new Error(`API failed with status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.status !== 'success') {
+                throw new Error(data.message || 'API returned error status');
+            }
+
+            // Save minimal data to localStorage
+            localStorage.setItem('lifedots-location', JSON.stringify({
+                country: data.country,
+                countryCode: data.countryCode
+            }));
+
+            return {
+                country: data.country,
+                lifeExpectancy: this.getLifeExpectancy(data.countryCode)
             };
         } catch (error) {
             console.error('Error detecting country:', error);
@@ -176,6 +221,21 @@ const LocationUtils = {
             'IN': 69.7, // India
             'ID': 71.7, // Indonesia
             'SG': 83.6, // Singapore
+            'TH': 77.2, // Thailand
+            'VN': 75.4, // Vietnam
+            'MY': 76.2, // Malaysia
+            'PH': 71.2, // Philippines
+            'PK': 67.3, // Pakistan
+            'BD': 72.6, // Bangladesh
+            'NP': 70.8, // Nepal
+            'LK': 77.0, // Sri Lanka
+            'KH': 69.8, // Cambodia
+            'MM': 67.1, // Myanmar
+            'LA': 68.0, // Laos
+            'BT': 72.1, // Bhutan
+            'MN': 70.0, // Mongolia
+            'TW': 80.9, // Taiwan
+
             
             // Main American countries
             'US': 78.9, // United States
@@ -183,8 +243,87 @@ const LocationUtils = {
             'MX': 75.1, // Mexico
             'BR': 75.9, // Brazil
             'AR': 76.7, // Argentina
-            
-            // Add more countries as needed
+            'CL': 80.2, // Chile
+            'CO': 77.3, // Colombia
+            'PE': 76.7, // Peru
+            'VE': 72.1, // Venezuela
+            'EC': 77.0, // Ecuador
+            'UY': 77.9, // Uruguay
+            'PY': 74.3, // Paraguay
+            'BO': 71.5, // Bolivia
+            'CR': 80.3, // Costa Rica
+            'PA': 78.5, // Panama
+            'DO': 74.1, // Dominican Republic
+            'HT': 64.3, // Haiti
+            'CU': 78.8, // Cuba
+            'GT': 74.3, // Guatemala
+            'SV': 73.3, // El Salvador
+            'HN': 75.3, // Honduras
+            'NI': 74.5, // Nicaragua
+            'JM': 74.5, // Jamaica
+
+            // Main African countries
+            'EG': 74.3, // Egypt
+            'MA': 75.2, // Morocco
+            'DZ': 74.7, // Algeria
+            'TN': 75.3, // Tunisia
+            'LY': 75.3, // Libya
+            'NG': 68.8, // Nigeria
+            'GH': 69.3, // Ghana
+            'CM': 71.3, // Cameroon
+            'CF': 66.9, // Central African Republic
+            'TD': 68.3, // Chad
+            'KM': 65.3, // Comoros
+            'RW': 65.5, // Rwanda
+            'ZA': 64.1, // South Africa
+            'KE': 66.7, // Kenya
+            'ET': 67.8, // Ethiopia
+            'UG': 63.4, // Uganda
+            'TZ': 65.5, // Tanzania
+            'CI': 57.8, // Ivory Coast
+            'SN': 67.9, // Senegal
+            'ML': 59.3, // Mali
+            'BF': 61.6, // Burkina Faso
+            'NE': 62.4, // Niger
+            'ZW': 61.5, // Zimbabwe
+            'MZ': 60.9, // Mozambique
+            'AO': 61.1, // Angola
+            'NA': 63.7, // Namibia
+            'BW': 69.6, // Botswana
+            'ZM': 63.9, // Zambia
+            'MW': 64.3, // Malawi
+            'MG': 67.0, // Madagascar
+            'SD': 65.3, // Sudan
+            'SS': 57.9, // South Sudan
+
+            // Australia and New Zealand
+            'AU': 83.2, // Australia
+            'NZ': 82.1, // New Zealand
+
+            // Other Oceania countries
+            'FJ': 67.4, // Fiji
+            'PG': 64.5, // Papua New Guinea
+            'SB': 73.0, // Solomon Islands
+            'VU': 70.5, // Vanuatu
+            'WS': 73.3, // Samoa
+            'TO': 70.9, // Tonga
+            'KI': 68.4, // Kiribati
+            'FM': 67.9, // Micronesia
+            'MH': 73.9, // Marshall Islands
+            'PW': 73.7, // Palau
+            'TV': 67.5, // Tuvalu
+            'NR': 67.4, // Nauru
+
+            // Other notable countries
+            'IS': 82.9, // Iceland
+            'NO': 82.4, // Norway
+            'CH': 83.8, // Switzerland
+            'IL': 82.8, // Israel
+            'UAE': 78.0, // United Arab Emirates
+            'QA': 80.2, // Qatar
+            'KW': 75.5, // Kuwait
+            'SA': 75.1, // Saudi Arabia
+            'OM': 74.3, // Oman
         };
         return lifeExpectancies[countryCode] || CONFIG.DEFAULT_LIFE_EXPECTANCY;
     }
