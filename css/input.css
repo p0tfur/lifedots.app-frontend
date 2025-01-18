@@ -106,7 +106,7 @@
   }
 
   .motivational-message {
-    @apply text-xl font-medium;
+    @apply text-2xl font-medium;
   }
 
   .light .motivational-message {
@@ -119,6 +119,8 @@
 
   .dots-container {
     @apply leading-none whitespace-normal text-left p-4 rounded-lg transition-colors duration-300;
+    font-size: 0; /* Remove space between inline-block elements */
+    line-height: 0;
   }
   
   .dark .dots-container {
@@ -131,9 +133,10 @@
   
   .dot {
     @apply inline-block rounded-full;
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     margin: 3px;
+    vertical-align: top; /* Ensure consistent alignment */
   }
 
   .dot-empty {
@@ -143,7 +146,7 @@
   .light .dot-empty {
     @apply border-gray-400;
   }
-  
+
   .dark .dot-empty {
     @apply border-gray-600;
   }
@@ -160,18 +163,18 @@
     @apply bg-primary-600;
   }
 
-  .light .dot:not(.filled) {
-    @apply border-gray-400;
-  }
-  
-  .dark .dot:not(.filled) {
-    @apply border-gray-600;
+  @screen sm {
+    .dot {
+      width: 7px;
+      height: 7px;
+      margin: 3px;
+    }
   }
 
   @screen md {
     .dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       margin: 4px;
     }
   }
@@ -197,7 +200,15 @@
   }
 
   #motivationalMessage {
-    @apply text-primary-600 dark:text-blue-400 font-medium;
+    @apply font-medium;
+  }
+
+  .light #motivationalMessage {
+    @apply text-primary-600;
+  }
+
+  .dark #motivationalMessage {
+    @apply text-blue-400;
   }
 
   .action-button {
