@@ -10,7 +10,15 @@
 
 @layer components {
   .app-title {
-    @apply text-2xl font-bold text-primary-600 dark:text-blue-400;
+    @apply text-2xl font-bold;
+  }
+
+  .light .app-title {
+    @apply text-primary-600;
+  }
+
+  .dark .app-title {
+    @apply text-blue-400;
   }
 
   .birth-year-input {
@@ -74,11 +82,39 @@
   }
   
   .stats-caption {
-    @apply text-sm font-medium text-gray-600 dark:text-gray-400;
+    @apply text-sm font-medium;
+  }
+
+  .dark .stats-caption {
+    @apply text-sm font-medium text-gray-400;
+  }
+
+  .light .stats-caption {
+    @apply text-sm font-medium text-gray-700;
   }
 
   .stats-value {
-    @apply text-xl font-bold text-primary-600 dark:text-blue-400;
+    @apply text-xl font-bold;
+  }
+
+  .light .stats-value {
+    @apply text-xl font-bold text-primary-600;
+  }
+
+  .dark .stats-value {
+    @apply text-xl font-bold text-blue-400;
+  }
+
+  .motivational-message {
+    @apply text-xl font-medium;
+  }
+
+  .light .motivational-message {
+    @apply text-primary-600;
+  }
+
+  .dark .motivational-message {
+    @apply text-blue-400;
   }
 
   .dots-container {
@@ -97,10 +133,19 @@
     @apply inline-block rounded-full;
     width: 4px;
     height: 4px;
+    margin: 3px;
   }
 
   .dot-empty {
-    @apply bg-gray-300 dark:bg-gray-700 border border-gray-400 dark:border-transparent;
+    @apply border bg-transparent;
+  }
+
+  .light .dot-empty {
+    @apply border-gray-400;
+  }
+  
+  .dark .dot-empty {
+    @apply border-gray-600;
   }
 
   .dot-filled {
@@ -113,10 +158,6 @@
 
   .light .dot-filled {
     @apply bg-primary-600;
-  }
-
-  .dot:not(.filled) {
-    @apply border bg-transparent;
   }
 
   .light .dot:not(.filled) {
@@ -134,12 +175,12 @@
       margin: 4px;
     }
   }
-  
+
   @screen lg {
     .dot {
       width: 10px;
       height: 10px;
-      margin: 6px;
+      margin: 5px;
     }
   }
   

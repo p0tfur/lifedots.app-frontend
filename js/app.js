@@ -157,7 +157,16 @@ class LifeDotsApp {
         this.elements.currentAge.textContent = UIUtils.formatTimeDisplay(age.years, age.months);
         this.elements.lifeProgress.textContent = `${progress}%`;
         this.elements.timeRemaining.textContent = UIUtils.formatTimeDisplay(remaining.years, remaining.months);
-        this.elements.motivationalMessage.textContent = UIUtils.getMotivationalMessage(progress);
+
+        // Update motivational message
+        const motivationalMessage = document.getElementById('motivationalMessage');
+        if (age) {
+          const message = UIUtils.getMotivationalMessage(progress);
+          motivationalMessage.textContent = message;
+          motivationalMessage.classList.remove('hidden');
+        } else {
+          motivationalMessage.classList.add('hidden');
+        }
 
         // Generate dots
         this.generateDots(age.totalMonths);
@@ -185,7 +194,7 @@ class LifeDotsApp {
         let html = '';
         for (let i = 0; i < totalMonths; i++) {
             const isFilled = i < elapsedMonths;
-            html += `<span class="dot${isFilled ? ' filled' : ''}"></span>`;
+            html += `<span class="dot ${isFilled ? 'dot-filled' : 'dot-empty'}"></span>`;
             
             // Add a line break after each row
             if ((i + 1) % dotsPerRow === 0) {
