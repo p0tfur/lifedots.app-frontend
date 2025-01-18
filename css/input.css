@@ -2,20 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  }
+}
+
 @layer components {
+  .app-title {
+    @apply text-2xl font-bold text-primary-600 dark:text-blue-400;
+  }
+
+  .birth-year-input {
+    @apply px-3 h-[38px] rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-blue-500;
+  }
+  
+  .dark .birth-year-input {
+    @apply bg-gray-800 border-gray-700 text-gray-100;
+  }
+  
+  .light .birth-year-input {
+    @apply bg-gray-100 border-gray-300 text-gray-900;
+  }
+
+  .toggle-container {
+    @apply inline-flex items-center gap-0.5 px-2 py-1 rounded-lg transition-colors duration-300 w-auto;
+  }
+  
+  .dark .toggle-container {
+    @apply bg-gray-800 text-gray-200;
+  }
+  
+  .light .toggle-container {
+    @apply bg-gray-100 text-gray-700 border border-gray-200;
+  }
+
+  .toggle-label {
+    @apply text-lg font-medium truncate flex items-center justify-center;
+  }
+
+  .toggle-button {
+    @apply relative inline-flex h-6 w-11 flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 ease-in-out;
+  }
+
+  .toggle-button[aria-checked="true"] {
+    @apply bg-primary-600;
+  }
+
+  .dark .toggle-button {
+    @apply bg-gray-700;
+  }
+
+  .dark .toggle-button[aria-checked="true"] {
+    @apply bg-blue-500;
+  }
+
+  .light .toggle-button {
+    @apply bg-gray-300;
+  }
+
+  .light .toggle-button[aria-checked="true"] {
+    @apply bg-primary-600;
+  }
+
+  .toggle-slider {
+    @apply pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition-transform duration-200 ease-in-out translate-x-0;
+  }
+
+  .toggle-button[aria-checked="true"] .toggle-slider {
+    @apply translate-x-5;
+  }
+  
+  .stats-caption {
+    @apply text-sm font-medium text-gray-600 dark:text-gray-400;
+  }
+
+  .stats-value {
+    @apply text-xl font-bold text-primary-600 dark:text-blue-400;
+  }
+
+  .dots-container {
+    @apply leading-none whitespace-normal text-left p-4 rounded-lg transition-colors duration-300;
+  }
+  
+  .dark .dots-container {
+    @apply border-2 border-gray-700 border-solid;
+  }
+
+  .light .dots-container {
+    @apply border-2 border-gray-300 border-solid;
+  }
+  
   .dot {
     @apply inline-block rounded-full;
     width: 4px;
     height: 4px;
-    margin: 3px;
   }
 
-  .dot.filled {
+  .dot-empty {
+    @apply bg-gray-300 dark:bg-gray-700 border border-gray-400 dark:border-transparent;
+  }
+
+  .dot-filled {
     @apply bg-primary-500;
   }
 
-  .dark .dot.filled {
+  .dark .dot-filled {
     @apply bg-blue-400;
+  }
+
+  .light .dot-filled {
+    @apply bg-primary-600;
   }
 
   .dot:not(.filled) {
@@ -23,13 +120,13 @@
   }
 
   .light .dot:not(.filled) {
-    @apply border-gray-300;
+    @apply border-gray-400;
   }
   
   .dark .dot:not(.filled) {
-    @apply border-gray-700;
+    @apply border-gray-600;
   }
-  
+
   @screen md {
     .dot {
       width: 6px;
@@ -46,98 +143,6 @@
     }
   }
   
-  .dots-container {
-    @apply leading-none whitespace-normal text-left p-4 rounded-lg transition-colors duration-300;
-  }
-  
-  .dark .dots-container {
-    @apply bg-gray-800;
-  }
-
-  .light .dots-container {
-    @apply bg-white shadow-sm;
-  }
-  
-  .toggle-container {
-    @apply inline-flex items-center gap-0.5 px-1 py-0.5 rounded-lg transition-colors duration-300 w-auto;
-  }
-  
-  .dark .toggle-container {
-    @apply bg-gray-800 text-gray-200;
-  }
-  
-  .light .toggle-container {
-    @apply bg-white text-gray-700 border border-gray-200 shadow-sm;
-  }
-
-  .toggle-button {
-    @apply relative inline-flex h-5 w-9 flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 ease-in-out bg-gray-200;
-  }
-
-  .toggle-button[aria-checked="true"] {
-    @apply bg-primary-600;
-  }
-
-  .dark .toggle-button {
-    @apply bg-gray-700;
-  }
-
-  .dark .toggle-button[aria-checked="true"] {
-    @apply bg-blue-500;
-  }
-
-  .toggle-slider {
-    @apply pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform ring-0 transition-transform duration-200 ease-in-out translate-x-0;
-  }
-
-  .toggle-button[aria-checked="true"] .toggle-slider {
-    @apply translate-x-4;
-  }
-  
-  .toggle-label {
-    @apply text-base font-medium truncate flex items-center justify-center;
-  }
-
-  .toggle-icon {
-    @apply text-lg leading-none;
-  }
-
-  .birth-year-input {
-    @apply w-24 md:w-28 px-1.5 py-0.5 text-base rounded-lg border transition-colors duration-300;
-  }
-  
-  .dark .birth-year-input {
-    @apply bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-400 focus:bg-gray-800;
-  }
-  
-  .light .birth-year-input {
-    @apply bg-white border-gray-200 text-gray-900 placeholder-gray-500;
-  }
-
-  .stats-value {
-    @apply text-2xl font-bold;
-  }
-
-  .dark .stats-value {
-    @apply text-blue-400;
-  }
-
-  .light .stats-value {
-    @apply text-primary-600;
-  }
-
-  .stats-caption {
-    @apply text-sm font-medium;
-  }
-
-  .dark .stats-caption {
-    @apply text-gray-400;
-  }
-
-  .light .stats-caption {
-    @apply text-gray-600;
-  }
-
   .motivational-text {
     @apply text-2xl font-semibold italic text-center;
   }
@@ -150,16 +155,8 @@
     @apply text-primary-600;
   }
 
-  .app-title {
-    @apply text-3xl font-bold;
-  }
-
-  .dark .app-title {
-    @apply text-blue-400;
-  }
-
-  .light .app-title {
-    @apply text-primary-600;
+  #motivationalMessage {
+    @apply text-primary-600 dark:text-blue-400 font-medium;
   }
 
   .action-button {
@@ -183,6 +180,54 @@
   }
   
   .light .footer-link {
-    @apply text-gray-600 hover:text-primary-700;
+    @apply text-gray-600 hover:text-gray-900;
+  }
+
+  body {
+    @apply min-h-screen transition-colors duration-300;
+  }
+
+  body.dark {
+    @apply bg-gray-900 text-gray-100;
+  }
+
+  body.light {
+    @apply bg-white text-gray-900;
+  }
+
+  footer {
+    @apply border-t transition-colors duration-300;
+  }
+
+  .dark footer {
+    @apply border-gray-800 text-gray-400;
+  }
+
+  .light footer {
+    @apply border-gray-200 text-gray-600;
+  }
+
+  footer a {
+    @apply transition-colors duration-300;
+  }
+
+  .dark footer a:hover {
+    @apply text-gray-200;
+  }
+
+  .light footer a:hover {
+    @apply text-gray-900;
+  }
+
+  .author-link {
+    @apply font-medium hover:underline;
+  }
+
+  .dark .author-link {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+
+  .light .author-link {
+    @apply text-gray-600 hover:text-gray-900;
   }
 }

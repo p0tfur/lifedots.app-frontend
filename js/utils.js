@@ -19,62 +19,68 @@ const Storage = {
 
 // Theme utilities
 const ThemeUtils = {
-    getCurrentTheme() {
-        return localStorage.getItem('theme') || 'light';
+    applyTheme(theme) {
+        const body = document.body;
+        const root = document.documentElement;
+        
+        if (theme === 'dark') {
+            body.classList.add('dark');
+            body.classList.remove('light');
+            root.style.colorScheme = 'dark';
+        } else {
+            body.classList.add('light');
+            body.classList.remove('dark');
+            root.style.colorScheme = 'light';
+        }
+
+        // Update icons
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        if (theme === 'dark') {
+            moonIcon.classList.remove('hidden');
+            sunIcon.classList.add('hidden');
+        } else {
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+        }
+
+        // Store theme
+        localStorage.setItem('theme', theme);
     },
 
     toggleTheme() {
         const currentTheme = this.getCurrentTheme();
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        localStorage.setItem('theme', newTheme);
-        
-        this.applyTheme(newTheme);
-        return newTheme;
+        this.applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
     },
 
-    applyTheme(theme) {
-        const body = document.body;
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
+    getCurrentTheme() {
+        return document.body.classList.contains('dark') ? 'dark' : 'light';
+    },
 
-        // Remove existing theme classes
-        body.classList.remove('dark', 'light');
-        body.classList.add(theme);
-
-        // Toggle icons and colors
-        if (theme === 'dark') {
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
-            body.classList.remove('bg-gray-50', 'text-gray-900');
-            body.classList.add('bg-gray-900', 'text-gray-100');
-            document.querySelector('footer').classList.remove('text-gray-600');
-            document.querySelector('footer').classList.add('text-gray-400');
-        } else {
-            moonIcon.classList.add('hidden');
-            sunIcon.classList.remove('hidden');
-            body.classList.remove('bg-gray-900', 'text-gray-100');
-            body.classList.add('bg-gray-50', 'text-gray-900');
-            document.querySelector('footer').classList.remove('text-gray-400');
-            document.querySelector('footer').classList.add('text-gray-600');
+    initTheme() {
+        // Check if theme is stored in localStorage
+        let theme = localStorage.getItem('theme');
+        
+        // If no stored theme, check system preference
+        if (!theme) {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
-
-        // Apply theme classes to themed elements
-        document.querySelectorAll('[data-theme]').forEach(element => {
-            const themeType = element.dataset.theme;
-            const classes = CONFIG.THEME_CLASSES[theme][themeType].split(' ');
-            
-            // Remove all possible theme classes first
-            Object.values(CONFIG.THEME_CLASSES).forEach(themeClasses => {
-                const classesToRemove = themeClasses[themeType].split(' ');
-                element.classList.remove(...classesToRemove);
-            });
-            
-            // Add new theme classes
-            element.classList.add(...classes);
-        });
+        
+        this.applyTheme(theme);
     }
 };
+
+// Initialize theme when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    ThemeUtils.initTheme();
+});
+
+// Watch for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+        ThemeUtils.applyTheme(e.matches ? 'dark' : 'light');
+    }
+});
 
 // Country detection utilities
 const LocationUtils = {

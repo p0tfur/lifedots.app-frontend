@@ -50,26 +50,14 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   </head>
-  <body class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+  <body
+    class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-white"
+  >
     <div class="fixed top-4 right-4 z-50">
-      <button id="themeToggle" class="p-2 rounded-full transition-colors">
-        <svg
-          id="sunIcon"
-          class="w-6 h-6 hidden text-primary-600"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-          />
-        </svg>
+      <button id="themeToggle" class="p-2 rounded-full transition-colors dark:hover:bg-gray-800 hover:bg-gray-100">
         <svg
           id="moonIcon"
-          class="w-6 h-6 text-gray-200"
+          class="w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -79,22 +67,34 @@
             stroke-linejoin="round"
             stroke-width="2"
             d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-          />
+          ></path>
+        </svg>
+        <svg
+          id="sunIcon"
+          class="hidden w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          ></path>
         </svg>
       </button>
     </div>
 
     <!-- Compact Header Section -->
-    <div class="p-4 transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+    <div class="min-h-screen py-8">
       <div class="container mx-auto max-w-5xl px-4">
         <div class="flex flex-col gap-4">
           <!-- Header and Controls -->
-           
           <div class="flex flex-col md:flex-row items-center gap-4">
-            <div class="flex-none">
-              <h1 class="app-title">LifeDots.app</h1>
-            </div>
-            <div class="flex-1 flex flex-wrap items-center gap-2">
+            <h1 class="app-title text-center md:text-left">LifeDots.app</h1>
+            
+            <div class="flex flex-col md:flex-row items-center md:mx-auto gap-2">
               <div class="flex items-center gap-0.5">
                 <input
                   type="number"
@@ -106,7 +106,7 @@
                 />
               </div>
 
-              <div class="flex items-center justify-start gap-0.5">
+              <div class="flex items-center justify-center gap-0.5 flex-wrap">
                 <div class="toggle-container" title="Healthy diet adds 5 years">
                   <span class="toggle-label">
                     <span class="toggle-icon">🥗</span>
@@ -144,7 +144,7 @@
           </div>
 
           <!-- Statistics -->
-          <div class="flex flex-wrap gap-4 justify-between mt-4">
+          <div class="flex flex-col md:flex-row gap-4 justify-between mt-4">
             <div class="text-center flex-1">
               <h3 class="stats-caption">Current Age</h3>
               <p id="currentAge" class="stats-value">-</p>
@@ -158,59 +158,39 @@
               <p id="timeRemaining" class="stats-value">-</p>
             </div>
           </div>
-          <p id="motivationalMessage" class="motivational-text text-center">-</p>
+
+          <!-- Motivational Message -->
+          <div class="text-center">
+            <p id="motivationalMessage" class="font-medium"></p>
+          </div>
+
+          <!-- Dots Container -->
+          <div id="dotsContainer" class="dots-container min-h-[200px] mb-8"></div>
+
+          <!-- Footer -->
+          <footer class="text-center text-sm py-2">
+            <p>
+              &copy; <span id="currentYear"></span> LifeDots.app · Visualize Your Life Timeline
+              &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Made with l❤️ve by
+              <a href="https://rpaby.pw/" target="_blank" class="hover:underline">rpaby.pw</a>
+            </p>
+            <div class="mt-1">
+              <a href="https://github.com/ricky-pro/lifedots-app" class="hover:underline">About</a>
+              ·
+              <a href="https://github.com/ricky-pro/lifedots-app/blob/main/privacy.md" class="hover:underline">Privacy</a>
+              ·
+              <a href="https://github.com/ricky-pro/lifedots-app/blob/main/terms.md" class="hover:underline">Terms</a>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
-
-    <!-- Visualization Area -->
-    <div class="flex-1 h-[calc(100vh-20rem)] p-4 dark:bg-gray-900 bg-white">
-      <div class="container mx-auto max-w-5xl">
-        <div
-          id="dotsContainer"
-          class="dots-container bg-white dark:bg-gray-900"
-        >
-          <!-- Dots will be generated here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <footer
-      class="py-6 px-4 mt-8 border-t dark:border-gray-800 border-gray-200"
-    >
-      <div class="container mx-auto max-w-5xl">
-        <div
-          class="flex flex-col md:flex-row justify-between items-center gap-4"
-        >
-          <div class="text-sm dark:text-gray-400 text-gray-500">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            LifeDots.app - Visualize Your Life
-            Timeline&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Made with l❤️ve by
-            <a href="https://rpaby.pw/" target="_blank" class="author-link"
-              >rpaby.pw</a
-            >.
-          </div>
-          <div class="flex gap-4 text-sm">
-            <a href="#" class="footer-link">About</a>
-            <a href="#" class="footer-link">Privacy</a>
-            <a href="#" class="footer-link">Terms</a>
-            <a
-              href="https://github.com/yourusername/lifedots"
-              target="_blank"
-              class="footer-link"
-              >GitHub</a
-            >
-          </div>
-        </div>
-      </div>
-    </footer>
 
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/app.js"></script>
+    <script>
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
