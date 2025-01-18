@@ -10,11 +10,13 @@ https://lifedots.app
 - Birth year and country selection
 - Local storage for saving preferences
 - Responsive design using Tailwind CSS
+- Dark/Light theme support
 - Real-time statistics:
   - Current age
   - Life progress percentage
   - Time remaining
   - Motivational messages
+- Privacy-focused: all data stored locally
 
 ## Technical Stack
 
@@ -22,16 +24,23 @@ https://lifedots.app
 - JavaScript (Vanilla)
 - Tailwind CSS
 - Local Storage API
+- PWA Support
 
 ## Project Structure
 
 ```
 lfd-app-front/
-├── index.html          # Main HTML file
+├── index.html          # Main application page
+├── about.html          # About page
+├── privacy.html        # Privacy policy
+├── terms.html          # Terms of use
+├── css/
+│   └── styles.css      # Tailwind and custom styles
 ├── js/
 │   ├── app.js         # Main application logic
 │   ├── config.js      # Configuration and constants
 │   └── utils.js       # Utility functions
+├── assets/            # Images and icons
 └── README.md          # Project documentation
 ```
 
@@ -50,21 +59,14 @@ Supports all modern browsers:
 - Safari (latest)
 - Edge (latest)
 
-## Performance Considerations
+## Privacy
 
-- Uses DOM fragments for efficient dot rendering
-- Minimal dependencies
-- Optimized localStorage usage
-- Responsive design with Tailwind CSS
+LifeDots.app respects user privacy:
+- No data collection
+- All calculations performed locally
+- Preferences stored in browser's Local Storage
+- No external API calls
 
-## Future Enhancements
+## License
 
-- Export visualization as image
-- Share functionality
-- Different visualization modes
-- Custom life expectancy input
-- Progressive Web App conversion
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
+All rights reserved. For personal use only.

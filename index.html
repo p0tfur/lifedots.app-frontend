@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LifeDots.app - Visualize Your Life Timeline</title>
+
+     <!-- PWA Meta Tags -->
+     <meta name="theme-color" content="#4f46e5">
+     <meta name="mobile-web-app-capable" content="yes">
+     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+     <meta name="apple-mobile-web-app-title" content="LifeDots">
     
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-    <link rel="manifest" href="assets/site.webmanifest">
-    
+    <link rel="manifest" href="manifest.json">
+
     <meta
       name="description"
       content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline."
@@ -47,12 +53,21 @@
         <div class="color-select-container">
           <select id="colorTheme" class="color-select">
             <option value="default">Default Theme</option>
+            <option value="#f59e0b">Amber</option>
+            <option value="#000000">Black</option>
             <option value="#2563eb">Blue</option>
+            <option value="#ef4444">Crimson</option>
+            <option value="#22c55e">Emerald</option>
             <option value="#16a34a">Green</option>
-            <option value="#dc2626">Red</option>
-            <option value="#9333ea">Purple</option>
+            <option value="#3b82f6">Indigo</option>
             <option value="#ea580c">Orange</option>
+            <option value="#ec4899">Pink</option>
+            <option value="#9333ea">Purple</option>
+            <option value="#dc2626">Red</option>
             <option value="#0d9488">Teal</option>
+            <option value="#14b8a6">Turquoise</option>
+            <option value="#ffffff">White</option>
+            <option value="#8b5cf6">Violet</option>
           </select>
         </div>
         <button
@@ -88,6 +103,16 @@
             ></path>
           </svg>
         </button>
+
+        <button 
+          id="installButton" 
+          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors" 
+          style="display: none;"
+          aria-label="Install app"
+        >
+          Install App
+        </button>
+
       </div>
     </div>
 
@@ -222,19 +247,19 @@
             </p>
             <div class="mt-1">
               <a
-                href="https://github.com/ricky-pro/lifedots-app"
+                href="about.html"
                 class="hover:underline"
                 >About</a
               >
               ·
               <a
-                href="https://github.com/ricky-pro/lifedots-app/blob/main/privacy.md"
+                href="privacy.html"
                 class="hover:underline"
                 >Privacy</a
               >
               ·
               <a
-                href="https://github.com/ricky-pro/lifedots-app/blob/main/terms.md"
+                href="terms.html"
                 class="hover:underline"
                 >Terms</a
               >
@@ -247,6 +272,23 @@
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/pwa.js"></script>
+
+      <!-- PWA Service Worker Registration -->
+      <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+              .then(registration => {
+                console.log('ServiceWorker registration successful:', registration);
+              })
+              .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+              });
+          });
+        }
+      </script>
+
     <script>
       document.getElementById("currentYear").textContent =
         new Date().getFullYear();
