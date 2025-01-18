@@ -10,7 +10,7 @@
 
 @layer components {
   .app-title {
-    @apply text-2xl font-bold;
+    @apply text-2xl font-bold -m-2;
   }
 
   .light .app-title {

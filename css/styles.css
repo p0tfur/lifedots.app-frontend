@@ -605,6 +605,7 @@ body {
 }
 
 .app-title {
+  margin: -0.5rem;
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 700;
@@ -1132,6 +1133,10 @@ footer a {
   height: 1.5rem;
 }
 
+.h-8 {
+  height: 2rem;
+}
+
 .min-h-\[200px\] {
   min-height: 200px;
 }
@@ -1142,6 +1147,10 @@ footer a {
 
 .w-6 {
   width: 1.5rem;
+}
+
+.w-8 {
+  width: 2rem;
 }
 
 .max-w-5xl {
@@ -1361,6 +1370,18 @@ footer a {
 
   .md\:flex-row {
     flex-direction: row;
+  }
+
+  .md\:items-center {
+    align-items: center;
+  }
+
+  .md\:justify-start {
+    justify-content: flex-start;
+  }
+
+  .md\:justify-between {
+    justify-content: space-between;
   }
 
   .md\:text-left {

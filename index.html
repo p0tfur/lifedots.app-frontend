@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LifeDots.app - Visualize Your Life Timeline</title>
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    
     <meta
       name="description"
       content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline."
@@ -17,34 +24,16 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://lifedots.app/" />
-    <meta
-      property="og:title"
-      content="LifeDots.app - Visualize Your Life Timeline"
-    />
-    <meta
-      property="og:description"
-      content="Interactive visualization of your life timeline. See how lifestyle choices affect your journey."
-    />
-    <meta
-      property="og:image"
-      content="https://lifedots.app/assets/og-image.png"
-    />
-
+    <meta property="og:title" content="LifeDots.app - Visualize Your Life Timeline" />
+    <meta property="og:description" content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline." />
+    <meta property="og:image" content="assets/android-chrome-512x512.png" />
+    
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://lifedots.app/" />
-    <meta
-      property="twitter:title"
-      content="LifeDots.app - Visualize Your Life Timeline"
-    />
-    <meta
-      property="twitter:description"
-      content="Interactive visualization of your life timeline. See how lifestyle choices affect your journey."
-    />
-    <meta
-      property="twitter:image"
-      content="https://lifedots.app/assets/twitter-image.png"
-    />
+    <meta property="twitter:title" content="LifeDots.app - Visualize Your Life Timeline" />
+    <meta property="twitter:description" content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline." />
+    <meta property="twitter:image" content="assets/android-chrome-512x512.png" />
 
     <link rel="stylesheet" href="css/styles.css" />
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -54,7 +43,10 @@
     class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-white"
   >
     <div class="fixed top-4 right-4 z-50">
-      <button id="themeToggle" class="p-2 rounded-full transition-colors dark:hover:bg-gray-800 hover:bg-gray-100">
+      <button
+        id="themeToggle"
+        class="p-2 rounded-full transition-colors dark:hover:bg-gray-800 hover:bg-gray-100"
+      >
         <svg
           id="moonIcon"
           class="w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800"
@@ -91,9 +83,16 @@
       <div class="container mx-auto max-w-5xl px-4">
         <div class="flex flex-col gap-4">
           <!-- Header and Controls -->
-          <div class="flex flex-col md:flex-row items-center gap-4">
-            <h1 class="app-title text-center md:text-left">LifeDots.app</h1>
-            
+          <div class="flex flex-col md:flex-row md:items-center gap-4">
+            <div class="flex items-center justify-center md:justify-start gap-4">
+              <img
+                src="assets/logo.svg"
+                alt="LifeDots.app Logo"
+                class="w-8 h-8"
+              />
+              <h1 class="app-title">LifeDots.app</h1>
+            </div>
+
             <div class="flex flex-col md:flex-row items-center md:mx-auto gap-2">
               <div class="flex items-center gap-0.5">
                 <input
@@ -111,31 +110,60 @@
                   <span class="toggle-label">
                     <span class="toggle-icon">🥗</span>
                   </span>
-                  <button role="switch" aria-checked="false" id="toggleHealthy" class="toggle-button">
+                  <button
+                    role="switch"
+                    aria-checked="false"
+                    id="toggleHealthy"
+                    class="toggle-button"
+                  >
                     <span class="toggle-slider"></span>
                   </button>
                 </div>
-                <div class="toggle-container" title="Regular exercise adds 3 years">
+                <div
+                  class="toggle-container"
+                  title="Regular exercise adds 3 years"
+                >
                   <span class="toggle-label">
                     <span class="toggle-icon">🏃</span>
                   </span>
-                  <button role="switch" aria-checked="false" id="toggleExercise" class="toggle-button">
+                  <button
+                    role="switch"
+                    aria-checked="false"
+                    id="toggleExercise"
+                    class="toggle-button"
+                  >
                     <span class="toggle-slider"></span>
                   </button>
                 </div>
-                <div class="toggle-container" title="Regular drinking reduces life by 2 years">
+                <div
+                  class="toggle-container"
+                  title="Regular drinking reduces life by 2 years"
+                >
                   <span class="toggle-label">
                     <span class="toggle-icon">🍺</span>
                   </span>
-                  <button role="switch" aria-checked="false" id="toggleDrink" class="toggle-button">
+                  <button
+                    role="switch"
+                    aria-checked="false"
+                    id="toggleDrink"
+                    class="toggle-button"
+                  >
                     <span class="toggle-slider"></span>
                   </button>
                 </div>
-                <div class="toggle-container" title="Smoking reduces life by 10 years">
+                <div
+                  class="toggle-container"
+                  title="Smoking reduces life by 10 years"
+                >
                   <span class="toggle-label">
                     <span class="toggle-icon">🚬</span>
                   </span>
-                  <button role="switch" aria-checked="false" id="toggleSmoke" class="toggle-button">
+                  <button
+                    role="switch"
+                    aria-checked="false"
+                    id="toggleSmoke"
+                    class="toggle-button"
+                  >
                     <span class="toggle-slider"></span>
                   </button>
                 </div>
@@ -165,21 +193,42 @@
           </div>
 
           <!-- Dots Container -->
-          <div id="dotsContainer" class="dots-container min-h-[200px] mb-8"></div>
+          <div
+            id="dotsContainer"
+            class="dots-container min-h-[200px] mb-8"
+          ></div>
 
           <!-- Footer -->
           <footer class="text-center text-sm py-2">
             <p>
-              &copy; <span id="currentYear"></span> LifeDots.app · Visualize Your Life Timeline
-              &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Made with l❤️ve by
-              <a href="https://rpaby.pw/" target="_blank" class="hover:underline">rpaby.pw</a>
+              &copy; <span id="currentYear"></span> LifeDots.app · Visualize
+              Your Life Timeline &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Made with
+              l❤️ve by
+              <a
+                href="https://rpaby.pw/"
+                target="_blank"
+                class="hover:underline"
+                >rpaby.pw</a
+              >
             </p>
             <div class="mt-1">
-              <a href="https://github.com/ricky-pro/lifedots-app" class="hover:underline">About</a>
+              <a
+                href="https://github.com/ricky-pro/lifedots-app"
+                class="hover:underline"
+                >About</a
+              >
               ·
-              <a href="https://github.com/ricky-pro/lifedots-app/blob/main/privacy.md" class="hover:underline">Privacy</a>
+              <a
+                href="https://github.com/ricky-pro/lifedots-app/blob/main/privacy.md"
+                class="hover:underline"
+                >Privacy</a
+              >
               ·
-              <a href="https://github.com/ricky-pro/lifedots-app/blob/main/terms.md" class="hover:underline">Terms</a>
+              <a
+                href="https://github.com/ricky-pro/lifedots-app/blob/main/terms.md"
+                class="hover:underline"
+                >Terms</a
+              >
             </div>
           </footer>
         </div>
@@ -190,7 +239,8 @@
     <script src="js/utils.js"></script>
     <script src="js/app.js"></script>
     <script>
-      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
     </script>
   </body>
 </html>
