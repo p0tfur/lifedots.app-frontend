@@ -2,6 +2,8 @@ const CACHE_NAME = 'lifedots-app-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './privacy.html',
+  './about.html',
   './css/styles.css',
   './css/input.css',
   './js/app.js',
