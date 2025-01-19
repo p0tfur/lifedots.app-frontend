@@ -5,6 +5,7 @@ class LifeDotsApp {
             lifeExpectancy: CONFIG.DEFAULT_LIFE_EXPECTANCY,
             theme: ThemeUtils.getCurrentTheme(),
             customColor: localStorage.getItem('customColor') || 'default',
+            topSectionVisible: localStorage.getItem('topSectionVisible') !== 'false',
             lifestyle: {
                 healthy: false,
                 exercise: false,
@@ -26,6 +27,8 @@ class LifeDotsApp {
             toggleExercise: document.getElementById('toggleExercise'),
             toggleDrink: document.getElementById('toggleDrink'),
             toggleSmoke: document.getElementById('toggleSmoke'),
+            progressBar: document.getElementById('progressBar'),
+            progressPercentage: document.getElementById('progressPercentage')
         };
 
         this.updateTimeout = null;
@@ -102,6 +105,19 @@ class LifeDotsApp {
             this.savePreferences();
         });
 
+        // Top section toggle
+        const toggleButton = document.getElementById('toggleButton');
+        const topSection = document.getElementById('topSection');
+
+        // Set initial state
+        this.updateTopSectionVisibility();
+
+        toggleButton.addEventListener('click', () => {
+            this.state.topSectionVisible = !this.state.topSectionVisible;
+            this.updateTopSectionVisibility();
+            this.savePreferences();
+        });
+
         // Color theme change listener
         if (this.elements.colorTheme) {
             this.elements.colorTheme.addEventListener('change', (e) => {
@@ -134,6 +150,19 @@ class LifeDotsApp {
         document.getElementById('exportButton')?.addEventListener('click', () => this.handleExport());
     }
 
+    updateTopSectionVisibility() {
+        const toggleButton = document.getElementById('toggleButton');
+        const topSection = document.getElementById('topSection');
+
+        if (this.state.topSectionVisible) {
+            topSection.style.display = '';
+            toggleButton.textContent = 'Hide';
+        } else {
+            topSection.style.display = 'none';
+            toggleButton.textContent = 'Show';
+        }
+    }
+
     handleUpdate() {
         const birthYear = parseInt(this.elements.birthYear.value);
         if (!birthYear || isNaN(birthYear)) {
@@ -150,14 +179,23 @@ class LifeDotsApp {
             birthYear: this.state.birthYear,
             theme: this.state.theme,
             lifestyle: this.state.lifestyle,
-            customColor: this.state.customColor
+            customColor: this.state.customColor,
+            topSectionVisible: this.state.topSectionVisible
         });
     }
 
     updateVisualization() {
+        if (!this.state.birthYear) return;
+
         const age = DateUtils.calculateAge(this.state.birthYear);
         const progress = DateUtils.calculateLifeProgress(this.state.birthYear, this.state.lifeExpectancy);
         const remaining = DateUtils.getTimeRemaining(this.state.birthYear, this.state.lifeExpectancy);
+
+        // Update progress bar
+        if (this.elements.progressBar && this.elements.progressPercentage) {
+            this.elements.progressBar.style.width = `${progress}%`;
+            this.elements.progressPercentage.textContent = `${progress}%`;
+        }
 
         // Update statistics
         this.elements.currentAge.textContent = UIUtils.formatTimeDisplay(age.years, age.months);
@@ -165,13 +203,8 @@ class LifeDotsApp {
         this.elements.timeRemaining.textContent = UIUtils.formatTimeDisplay(remaining.years, remaining.months);
 
         // Update motivational message
-        const motivationalMessage = document.getElementById('motivationalMessage');
-        if (age) {
-          const message = UIUtils.getMotivationalMessage(progress);
-          motivationalMessage.textContent = message;
-          motivationalMessage.classList.remove('hidden');
-        } else {
-          motivationalMessage.classList.add('hidden');
+        if (this.elements.motivationalMessage) {
+            this.elements.motivationalMessage.textContent = UIUtils.getMotivationalMessage(progress);
         }
 
         // Generate dots
@@ -268,6 +301,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (savedPrefs.customColor) {
             document.getElementById('colorTheme').value = savedPrefs.customColor;
+        }
+        if (savedPrefs.topSectionVisible !== undefined) {
+            document.getElementById('toggleButton').textContent = savedPrefs.topSectionVisible ? 'Hide' : 'Show';
+            document.getElementById('topSection').style.display = savedPrefs.topSectionVisible ? '' : 'none';
         }
         
         // Update visualization immediately if birth year exists

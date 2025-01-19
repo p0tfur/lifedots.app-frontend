@@ -161,17 +161,15 @@
   }
 
   .dots-container {
-    @apply leading-none whitespace-normal text-left p-4 rounded-lg transition-colors duration-300;
+    @apply leading-none whitespace-normal text-left p-4;
     font-size: 0; /* Remove space between inline-block elements */
     line-height: 0;
   }
-  
-  .dark .dots-container {
-    @apply border-2 border-gray-700 border-solid;
-  }
 
-  .light .dots-container {
-    @apply border-2 border-gray-300 border-solid;
+  @screen sm {
+    .dots-container {
+      @apply border border-gray-200 dark:border-gray-700 rounded-lg;
+    }
   }
   
   .dot {
@@ -180,6 +178,30 @@
     height: 6px;
     margin: 3px;
     vertical-align: top; /* Ensure consistent alignment */
+  }
+
+  @screen sm {
+    .dot {
+      width: 7px;
+      height: 7px;
+      margin: 3px;
+    }
+  }
+
+  @screen md {
+    .dot {
+      width: 8px;
+      height: 8px;
+      margin: 4px;
+    }
+  }
+
+  @screen lg {
+    .dot {
+      width: 10px;
+      height: 10px;
+      margin: 5px;
+    }
   }
 
   .dot-empty {
@@ -206,34 +228,124 @@
     background-color: var(--primary-color, theme('colors.primary.600'));
   }
 
-  @screen sm {
-    .dot {
-      width: 7px;
-      height: 7px;
-      margin: 3px;
+  .progress-container {
+    @apply relative w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700 overflow-hidden;
+  }
+
+  .progress-bar {
+    @apply absolute top-0 left-0 h-full bg-primary-600 dark:bg-blue-500 rounded-full transition-all duration-300;
+  }
+
+  progress {
+    @apply w-full h-4;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  progress::-webkit-progress-bar {
+    @apply bg-gray-200 rounded-full dark:bg-gray-700;
+  }
+
+  progress::-webkit-progress-value {
+    @apply bg-primary-600 rounded-full dark:bg-blue-500 transition-all duration-300;
+  }
+
+  progress::-moz-progress-bar {
+    @apply bg-primary-600 rounded-full dark:bg-blue-500 transition-all duration-300;
+  }
+
+  .epic-progress-container {
+    @apply relative w-full h-6 sm:h-8 rounded-xl overflow-hidden;
+    background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.02));
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .dark .epic-progress-container {
+    background: linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .epic-progress-bar {
+    @apply absolute top-0 left-0 h-full rounded-xl flex items-center justify-center z-0;
+    background: linear-gradient(90deg, 
+      var(--primary-color, theme('colors.primary.600')) 0%,
+      color-mix(in srgb, var(--primary-color, theme('colors.primary.600')) 90%, transparent) 100%
+    );
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark .epic-progress-bar {
+    background: linear-gradient(90deg, 
+      var(--primary-color-dark, theme('colors.blue.500')) 0%,
+      color-mix(in srgb, var(--primary-color-dark, theme('colors.blue.500')) 90%, transparent) 100%
+    );
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+
+  .epic-progress-text {
+    @apply absolute w-full h-full flex items-center justify-center text-lg sm:text-xl font-bold text-white z-20;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .light .epic-progress-text {
+    @apply text-gray-500;
+    text-shadow: none;
+  }
+
+  .epic-progress-sections {
+    @apply absolute top-0 left-0 w-full h-full flex z-10;
+    pointer-events: none;
+  }
+
+  .epic-progress-section {
+    @apply h-full border-r-2 border-white/30 flex-1 last:border-r-0;
+  }
+
+  .epic-progress-bar::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+    animation: shine 2s infinite;
+  }
+
+  .dark .epic-progress-container {
+    background: linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-200%);
+    }
+    100% {
+      transform: translateX(200%);
     }
   }
 
-  @screen md {
-    .dot {
-      width: 8px;
-      height: 8px;
-      margin: 4px;
-    }
-  }
-
-  @screen lg {
-    .dot {
-      width: 10px;
-      height: 10px;
-      margin: 5px;
-    }
-  }
-  
   .action-button {
     @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 text-white font-medium text-sm;
   }
-  
+
+  /* Sticky footer */
+  body {
+    @apply flex flex-col;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    @apply flex-1;
+  }
+
+  footer {
+    @apply mt-auto;
+  }
+
   .dark .action-button {
     @apply bg-blue-500 hover:bg-blue-600;
   }
