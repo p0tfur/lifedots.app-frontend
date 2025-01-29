@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="block-all-mixed-content; connect-src http://ip-api.com 'self';">
+  <meta name="referrer" content="no-referrer">
   <title>LifeDots.app - Visualize Your Life Timeline</title>
 
   <!-- PWA Meta Tags -->
@@ -412,7 +414,7 @@
   </script>
 
   <script src="https://beamanalytics.b-cdn.net/beam.min.js" data-token="cc5d27f9-1adb-4f7f-b69e-2a2e9950833c"
-    async></script>
+    async defer onerror="console.warn('Analytics failed to load - this is non-critical')"></script>
 
   <script>
     document.getElementById('resetButton').addEventListener('click', function() {

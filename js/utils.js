@@ -122,7 +122,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 const LocationUtils = {
     async detectCountry() {
         // Check localStorage first
-        const savedLocation = localStorage.getItem('lifedots-location');
+        const savedLocation = localStorage.getItem('countryData');
         if (savedLocation) {
             const locationData = JSON.parse(savedLocation);
             const lifeExpectancy = this.getLifeExpectancy(locationData.countryCode);
@@ -139,45 +139,34 @@ const LocationUtils = {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'
-                }
+                },
+                referrerPolicy: 'no-referrer'
             });
-            
-            // Check rate limiting headers
-            const requestsRemaining = response.headers.get('X-Rl');
-            const timeToReset = response.headers.get('X-Ttl');
-            
-            if (requestsRemaining === '0') {
-                console.warn(`API rate limit reached. Reset in ${timeToReset} seconds`);
-            }
-
-            if (response.status === 429) {
-                throw new Error('Rate limit exceeded');
-            }
-            
-            if (!response.ok) {
-                throw new Error(`API failed with status: ${response.status}`);
-            }
             
             const data = await response.json();
             
-            if (data.status !== 'success') {
-                throw new Error(data.message || 'API returned error status');
+            if (data.status === 'fail') {
+                console.warn('IP API warning:', data.message);
+                throw new Error(data.message || 'API returned failure status');
             }
 
-            // Save minimal data to localStorage
-            localStorage.setItem('lifedots-location', JSON.stringify({
+            const countryData = {
                 country: data.country,
                 countryCode: data.countryCode
-            }));
+            };
 
-            const lifeExpectancy = this.getLifeExpectancy(data.countryCode);
+            // Cache the result
+            localStorage.setItem('countryData', JSON.stringify(countryData));
+            
+            const lifeExpectancy = this.getLifeExpectancy(countryData.countryCode);
 
             return {
-                country: data.country,
+                country: countryData.country,
                 lifeExpectancy: lifeExpectancy
             };
         } catch (error) {
             console.error('Error detecting country:', error);
+            // Return default values using CONFIG.DEFAULT_LIFE_EXPECTANCY
             return {
                 country: null,
                 lifeExpectancy: CONFIG.DEFAULT_LIFE_EXPECTANCY
