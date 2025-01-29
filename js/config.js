@@ -57,7 +57,7 @@ const CONFIG = {
         lg: 1024,
         xl: 1280
     },
-    IP_API_URL: 'http://ip-api.com/json/',
+    IP_API_URL: 'https://lifedots-geolocation.p-wesolowski.workers.dev/',  // Worker URL
     THEME_CLASSES: {
         light: {
             bg: 'bg-white',
