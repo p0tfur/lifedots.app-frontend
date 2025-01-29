@@ -297,7 +297,32 @@
   }
 
   .action-button {
-    @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 text-white font-medium text-sm;
+    @apply flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-300 text-white font-semibold tracking-wider;
+    background-color: var(--primary-color, theme('colors.primary.600'));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+  }
+
+  .dark .action-button {
+    background-color: var(--primary-color-dark, theme('colors.blue.500'));
+  }
+
+  .action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    filter: brightness(110%);
+  }
+
+  .footer-link {
+    @apply transition-colors duration-200;
+  }
+  
+  .dark .footer-link {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+  
+  .light .footer-link {
+    @apply text-gray-600 hover:text-gray-900;
   }
 
   /* Sticky footer */
@@ -314,23 +339,35 @@
     @apply mt-auto;
   }
 
-  .dark .action-button {
-    @apply bg-blue-500 hover:bg-blue-600;
-  }
-  
-  .light .action-button {
-    @apply bg-primary-500 hover:bg-primary-600 shadow-sm hover:shadow-md;
+  .dark footer {
+    @apply border-gray-800 text-gray-400;
   }
 
-  .footer-link {
-    @apply transition-colors duration-200;
+  .light footer {
+    @apply border-gray-200 text-gray-600;
   }
-  
-  .dark .footer-link {
+
+  footer a {
+    @apply transition-colors duration-300;
+  }
+
+  .dark footer a:hover {
+    @apply text-gray-200;
+  }
+
+  .light footer a:hover {
+    @apply text-gray-900;
+  }
+
+  .author-link {
+    @apply font-medium hover:underline;
+  }
+
+  .dark .author-link {
     @apply text-blue-400 hover:text-blue-300;
   }
-  
-  .light .footer-link {
+
+  .light .author-link {
     @apply text-gray-600 hover:text-gray-900;
   }
 
@@ -410,17 +447,5 @@
 
   .light footer a:hover {
     @apply text-gray-900;
-  }
-
-  .author-link {
-    @apply font-medium hover:underline;
-  }
-
-  .dark .author-link {
-    @apply text-blue-400 hover:text-blue-300;
-  }
-
-  .light .author-link {
-    @apply text-gray-600 hover:text-gray-900;
   }
 }

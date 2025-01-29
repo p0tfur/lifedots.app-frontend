@@ -47,6 +47,135 @@
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <style>
+    @keyframes bombDrop {
+      0% { transform: translateY(-100px) scale(1) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(0) scale(1.2) rotate(180deg); opacity: 1; }
+      100% { transform: translateY(100px) scale(1) rotate(360deg); opacity: 1; }
+    }
+
+    @keyframes explosion {
+      0% { transform: scale(0); opacity: 1; }
+      50% { transform: scale(15); opacity: 0.8; }
+      100% { transform: scale(30); opacity: 0; }
+    }
+
+    @keyframes shockwave {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(50); opacity: 0; }
+    }
+
+    .bomb-animation {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      animation: bombDrop 1.5s ease-in forwards;
+      z-index: 1000;
+    }
+
+    .explosion {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #ff4400, #ff0000);
+      border-radius: 50%;
+      z-index: 1000;
+      animation: explosion 0.8s ease-out forwards;
+    }
+
+    .shockwave {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 4px solid #ff8800;
+      border-radius: 50%;
+      z-index: 999;
+      animation: shockwave 0.8s ease-out forwards;
+    }
+
+    .fate-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      z-index: 1001;
+      display: none;
+      font-size: 24px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      border: 2px solid #ff4400;
+    }
+
+    .country-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #1a1a1a;
+      padding: 20px 30px;
+      border-radius: 10px;
+      z-index: 1001;
+      display: none;
+      font-size: 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      border: 2px solid var(--primary-color, #4F46E5);
+      max-width: 400px;
+    }
+
+    .dark .country-message {
+      background: rgba(31, 41, 55, 0.95);
+      color: white;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    @keyframes flyPlane {
+      0% { 
+        transform: translate(-100vw, 0) rotate(5deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      50% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      80% {
+        opacity: 1;
+      }
+      100% { 
+        transform: translate(100vw, 0) rotate(-5deg);
+        opacity: 0;
+      }
+    }
+
+    .plane-animation {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      font-size: 64px;
+      z-index: 1000;
+      animation: flyPlane 5s ease-in-out forwards;
+    }
+  </style>
 </head>
 
 <body class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-white">
@@ -179,6 +308,17 @@
           <div class="text-center">
             <p id="motivationalMessage" class="motivational-message"></p>
           </div>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-center gap-4">
+            <button id="resetButton" class="action-button">
+              Sooo long?!
+            </button>
+            <button id="wantMoreButton" class="action-button">
+              I want more!
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -273,6 +413,133 @@
 
   <script src="https://beamanalytics.b-cdn.net/beam.min.js" data-token="cc5d27f9-1adb-4f7f-b69e-2a2e9950833c"
     async></script>
+
+  <script>
+    document.getElementById('resetButton').addEventListener('click', function() {
+      // Create and add bomb emoji
+      const bomb = document.createElement('div');
+      bomb.textContent = '💣';
+      bomb.className = 'bomb-animation';
+      document.body.appendChild(bomb);
+
+      // Add explosion effect after bomb drops
+      setTimeout(() => {
+        bomb.remove();
+        
+        // Create explosion
+        const explosion = document.createElement('div');
+        explosion.className = 'explosion';
+        document.body.appendChild(explosion);
+
+        // Create multiple shockwaves
+        for (let i = 0; i < 3; i++) {
+          const shockwave = document.createElement('div');
+          shockwave.className = 'shockwave';
+          shockwave.style.animationDelay = `${i * 0.2}s`;
+          document.body.appendChild(shockwave);
+        }
+
+        // Screen shake effect
+        document.body.style.animation = 'shake 0.5s ease-in-out';
+
+        // Create message element if it doesn't exist
+        let messageEl = document.querySelector('.fate-message');
+        if (!messageEl) {
+          messageEl = document.createElement('div');
+          messageEl.className = 'fate-message';
+          messageEl.innerHTML = 'BOOM! 💥<br>Are you still there? Sorry, you cannot escape your fate! 😈';
+          document.body.appendChild(messageEl);
+        }
+
+        // Show message after explosion
+        setTimeout(() => {
+          messageEl.style.display = 'block';
+          // Add some screen shake
+          document.body.style.animation = 'none';
+          document.body.offsetHeight; // Trigger reflow
+          document.body.style.animation = 'shake 0.5s ease-in-out';
+          
+          setTimeout(() => {
+            messageEl.style.display = 'none';
+            // Remove explosion and shockwave elements
+            explosion.remove();
+            document.querySelectorAll('.shockwave').forEach(wave => wave.remove());
+          }, 5000);
+        }, 800);
+      }, 1500);
+    });
+  </script>
+
+  <script>
+    document.getElementById('wantMoreButton').addEventListener('click', async function() {
+      try {
+        // Get current location and life expectancy
+        const currentLocation = await LocationUtils.detectCountry();
+        const currentLifeExpectancy = currentLocation.lifeExpectancy;
+
+        // Get all life expectancies and filter for better ones
+        const betterCountries = Object.entries(LocationUtils.getAllLifeExpectancies())
+          .filter(([_, expectancy]) => expectancy > currentLifeExpectancy)
+          .map(([code, expectancy]) => ({
+            code,
+            bonus: Math.round((expectancy - currentLifeExpectancy) * 10) / 10,
+            expectancy
+          }))
+          .sort((a, b) => b.bonus - a.bonus);
+
+        // Create and add plane emoji
+        const plane = document.createElement('div');
+        plane.textContent = '✈️';
+        plane.className = 'plane-animation';
+        document.body.appendChild(plane);
+
+        // Create message element if it doesn't exist
+        let messageEl = document.querySelector('.country-message');
+        if (!messageEl) {
+          messageEl = document.createElement('div');
+          messageEl.className = 'country-message';
+          document.body.appendChild(messageEl);
+        }
+
+        // Show message after plane reaches center
+        setTimeout(() => {
+          // Handle case when no better country is found
+          if (betterCountries.length === 0) {
+            messageEl.innerHTML = `
+              <h3 style="font-size: 24px; margin-bottom: 10px;">🏆 Congratulations! 🏆</h3>
+              <p>You're already living in one of the countries with the highest life expectancy!</p>
+              <p style="margin-top: 10px; font-size: 16px;">Current life expectancy: ${currentLifeExpectancy} years</p>
+              <p style="margin-top: 5px; font-size: 14px; opacity: 0.8;">Keep up the good work! 🌟</p>
+            `;
+          } else {
+            // Select a random country from top 10 choices
+            const topChoices = betterCountries.slice(0, Math.min(10, betterCountries.length));
+            const country = topChoices[Math.floor(Math.random() * topChoices.length)];
+            
+            const countryName = new Intl.DisplayNames(['en'], { type: 'region' }).of(country.code);
+            // Create flag emoji from country code
+            const flagEmoji = country.code
+              ? String.fromCodePoint(...[...country.code].map(c => c.charCodeAt(0) + 127397))
+              : '';
+            
+            messageEl.innerHTML = `
+              <h3 style="font-size: 24px; margin-bottom: 10px;">✨ Life Hack Found! ✨</h3>
+              <p>Moving to ${countryName} ${flagEmoji} could give you <strong>+${country.bonus} years</strong> of life expectancy!</p>
+              <p style="margin-top: 10px; font-size: 16px;">Time to pack your bags? 🧳</p>
+              <p style="margin-top: 5px; font-size: 14px; opacity: 0.8;">Their life expectancy: ${country.expectancy} years</p>
+            `;
+          }
+          messageEl.style.display = 'block';
+          
+          setTimeout(() => {
+            messageEl.style.display = 'none';
+          }, 6000);
+        }, 3500);
+      } catch (error) {
+        console.error('Error while finding life hack:', error);
+      }
+    });
+  </script>
 </body>
 
 </html>

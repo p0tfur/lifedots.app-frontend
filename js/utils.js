@@ -186,7 +186,7 @@ const LocationUtils = {
     },
 
     getLifeExpectancy(countryCode) {
-        // Simplified life expectancy data (you might want to use a more complete dataset)
+        // Simplified life expectancy 
         const lifeExpectancies = {
             // EU countries
             'AT': 81.5, // Austria
@@ -329,6 +329,45 @@ const LocationUtils = {
             'OM': 74.3, // Oman
         };
         return lifeExpectancies[countryCode] || CONFIG.DEFAULT_LIFE_EXPECTANCY;
+    },
+
+    getAllLifeExpectancies() {
+        // Only countries with life expectancy of 80+ years
+        const lifeExpectancies = {
+            // Top life expectancy countries (80+ years)
+            'JP': 84.7, // Japan
+            'CH': 84.3, // Switzerland
+            'SG': 84.1, // Singapore
+            'IT': 84.0, // Italy
+            'ES': 84.0, // Spain
+            'AU': 83.9, // Australia
+            'KR': 83.3, // South Korea
+            'IL': 83.0, // Israel
+            'SE': 82.9, // Sweden
+            'FR': 82.8, // France
+            'IC': 82.7, // Iceland
+            'NO': 82.6, // Norway
+            'IE': 82.4, // Ireland
+            'NZ': 82.3, // New Zealand
+            'MT': 82.3, // Malta
+            'LU': 82.3, // Luxembourg
+            'NL': 82.2, // Netherlands
+            'GR': 82.2, // Greece
+            'PT': 82.1, // Portugal
+            'FI': 82.0, // Finland
+            'BE': 81.9, // Belgium
+            'AT': 81.8, // Austria
+            'SI': 81.6, // Slovenia
+            'CA': 81.5, // Canada
+            'DK': 81.4, // Denmark
+            'DE': 81.3, // Germany
+            'CY': 81.2, // Cyprus
+            'TW': 80.9, // Taiwan
+            'CR': 80.3, // Costa Rica
+            'CL': 80.2, // Chile
+            'QA': 80.2, // Qatar
+        };
+        return lifeExpectancies;
     }
 };
 
