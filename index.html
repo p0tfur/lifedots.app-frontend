@@ -1,547 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="connect-src https://*.workers.dev https://lb1.beamanalytics.io 'self'; script-src 'self' https://beamanalytics.b-cdn.net https://html2canvas.hertzen.com 'unsafe-inline' 'unsafe-eval';"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>LifeDots.app - Visualize Your Life Timeline</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="connect-src https://*.workers.dev https://lb1.beamanalytics.io 'self'; script-src 'self' https://beamanalytics.b-cdn.net https://html2canvas.hertzen.com 'unsafe-inline' 'unsafe-eval';">
-  <meta name="referrer" content="no-referrer">
-  <title>LifeDots.app - Visualize Your Life Timeline</title>
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="LifeDots" />
 
-  <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#4f46e5" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="LifeDots" />
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+    <link rel="manifest" href="manifest.json" />
 
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
-  <link rel="manifest" href="manifest.json" />
+    <meta
+      name="description"
+      content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline."
+    />
+    <meta
+      name="keywords"
+      content="life visualization, timeline, life expectancy, lifestyle tracker, personal development"
+    />
+    <meta name="author" content="LifeDots.app" />
 
-  <meta name="description"
-    content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline." />
-  <meta name="keywords"
-    content="life visualization, timeline, life expectancy, lifestyle tracker, personal development" />
-  <meta name="author" content="LifeDots.app" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lifedots.app/" />
+    <meta property="og:title" content="LifeDots.app - Visualize Your Life Timeline" />
+    <meta
+      property="og:description"
+      content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline."
+    />
+    <meta property="og:image" content="https://lifedots.app/assets/screenshot-desktop.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://lifedots.app/" />
-  <meta property="og:title" content="LifeDots.app - Visualize Your Life Timeline" />
-  <meta property="og:description"
-    content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline." />
-  <meta property="og:image" content="https://lifedots.app/assets/screenshot-desktop.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://lifedots.app/" />
+    <meta name="twitter:title" content="LifeDots.app - Visualize Your Life Timeline" />
+    <meta
+      name="twitter:description"
+      content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline."
+    />
+    <meta name="twitter:image" content="https://lifedots.app/assets/screenshot-desktop.png" />
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="630" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://lifedots.app/" />
-  <meta name="twitter:title" content="LifeDots.app - Visualize Your Life Timeline" />
-  <meta name="twitter:description"
-    content="Visualize your life timeline with interactive dots, showing both elapsed and remaining time based on life expectancy. Track lifestyle choices and their impact on your timeline." />
-  <meta name="twitter:image" content="https://lifedots.app/assets/screenshot-desktop.png" />
-  <meta name="twitter:image:width" content="1200" />
-  <meta name="twitter:image:height" content="630" />
-
-  <link rel="stylesheet" href="css/styles.css" />
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <style>
-    @keyframes bombDrop {
-      0% { transform: translateY(-100px) scale(1) rotate(0deg); opacity: 1; }
-      50% { transform: translateY(0) scale(1.2) rotate(180deg); opacity: 1; }
-      100% { transform: translateY(100px) scale(1) rotate(360deg); opacity: 1; }
-    }
-
-    @keyframes explosion {
-      0% { transform: scale(0); opacity: 1; }
-      50% { transform: scale(15); opacity: 0.8; }
-      100% { transform: scale(30); opacity: 0; }
-    }
-
-    @keyframes shockwave {
-      0% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(50); opacity: 0; }
-    }
-
-    .bomb-animation {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 48px;
-      animation: bombDrop 1.5s ease-in forwards;
-      z-index: 1000;
-    }
-
-    .explosion {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle, #ff4400, #ff0000);
-      border-radius: 50%;
-      z-index: 1000;
-      animation: explosion 0.8s ease-out forwards;
-    }
-
-    .shockwave {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
-      border: 4px solid #ff8800;
-      border-radius: 50%;
-      z-index: 999;
-      animation: shockwave 0.8s ease-out forwards;
-    }
-
-    .fate-message {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 20px 30px;
-      border-radius: 10px;
-      z-index: 1001;
-      display: none;
-      font-size: 24px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-      border: 2px solid #ff4400;
-    }
-
-    .country-message {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.95);
-      color: #1a1a1a;
-      padding: 20px 30px;
-      border-radius: 10px;
-      z-index: 1001;
-      display: none;
-      font-size: 20px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      border: 2px solid var(--primary-color, #4F46E5);
-      max-width: 400px;
-    }
-
-    .dark .country-message {
-      background: rgba(31, 41, 55, 0.95);
-      color: white;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-      20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-
-    @keyframes flyPlane {
-      0% { 
-        transform: translate(-100vw, 0) rotate(5deg);
-        opacity: 0;
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <style>
+      @keyframes bombDrop {
+        0% {
+          transform: translateY(-100px) scale(1) rotate(0deg);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(0) scale(1.2) rotate(180deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100px) scale(1) rotate(360deg);
+          opacity: 1;
+        }
       }
-      20% {
-        opacity: 1;
-      }
-      50% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-      80% {
-        opacity: 1;
-      }
-      100% { 
-        transform: translate(100vw, 0) rotate(-5deg);
-        opacity: 0;
-      }
-    }
 
-    .plane-animation {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      font-size: 64px;
-      z-index: 1000;
-      animation: flyPlane 5s ease-in-out forwards;
-    }
-  </style>
-</head>
+      @keyframes explosion {
+        0% {
+          transform: scale(0);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(15);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(30);
+          opacity: 0;
+        }
+      }
 
-<body class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-white">
-  <div id="topSection">
-    <div class="fixed top-4 right-4 z-50">
-      <div class="flex items-center gap-2">
-        <div class="color-select-container">
-          <select id="colorTheme" class="color-select">
-            <option value="default">Default Theme</option>
-            <option value="#f59e0b">Amber</option>
-            <option value="#000000">Black</option>
-            <option value="#2563eb">Blue</option>
-            <option value="#ef4444">Crimson</option>
-            <option value="#22c55e">Emerald</option>
-            <option value="#16a34a">Green</option>
-            <option value="#3b82f6">Indigo</option>
-            <option value="#ea580c">Orange</option>
-            <option value="#ec4899">Pink</option>
-            <option value="#9333ea">Purple</option>
-            <option value="#dc2626">Red</option>
-            <option value="#0d9488">Teal</option>
-            <option value="#14b8a6">Turquoise</option>
-            <option value="#ffffff">White</option>
-            <option value="#8b5cf6">Violet</option>
-          </select>
+      @keyframes shockwave {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(50);
+          opacity: 0;
+        }
+      }
+
+      .bomb-animation {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 48px;
+        animation: bombDrop 1.5s ease-in forwards;
+        z-index: 1000;
+      }
+
+      .explosion {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(circle, #ff4400, #ff0000);
+        border-radius: 50%;
+        z-index: 1000;
+        animation: explosion 0.8s ease-out forwards;
+      }
+
+      .shockwave {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border: 4px solid #ff8800;
+        border-radius: 50%;
+        z-index: 999;
+        animation: shockwave 0.8s ease-out forwards;
+      }
+
+      .fate-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        z-index: 1001;
+        display: none;
+        font-size: 24px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        border: 2px solid #ff4400;
+      }
+
+      .country-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        color: #1a1a1a;
+        padding: 20px 30px;
+        border-radius: 10px;
+        z-index: 1001;
+        display: none;
+        font-size: 20px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border: 2px solid var(--primary-color, #4f46e5);
+        max-width: 400px;
+      }
+
+      .dark .country-message {
+        background: rgba(31, 41, 55, 0.95);
+        color: white;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+
+      @keyframes flyPlane {
+        0% {
+          transform: translate(-100vw, 0) rotate(5deg);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        50% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(100vw, 0) rotate(-5deg);
+          opacity: 0;
+        }
+      }
+
+      .plane-animation {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        font-size: 64px;
+        z-index: 1000;
+        animation: flyPlane 5s ease-in-out forwards;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen transition-colors duration-300 dark:bg-gray-900 bg-white">
+    <div id="topSection">
+      <div class="fixed top-4 right-4 z-50">
+        <div class="flex items-center gap-2">
+          <div class="color-select-container">
+            <select id="colorTheme" class="color-select">
+              <option value="default">Default Theme</option>
+              <option value="#f59e0b">Amber</option>
+              <option value="#000000">Black</option>
+              <option value="#2563eb">Blue</option>
+              <option value="#ef4444">Crimson</option>
+              <option value="#22c55e">Emerald</option>
+              <option value="#16a34a">Green</option>
+              <option value="#3b82f6">Indigo</option>
+              <option value="#ea580c">Orange</option>
+              <option value="#ec4899">Pink</option>
+              <option value="#9333ea">Purple</option>
+              <option value="#dc2626">Red</option>
+              <option value="#0d9488">Teal</option>
+              <option value="#14b8a6">Turquoise</option>
+              <option value="#ffffff">White</option>
+              <option value="#8b5cf6">Violet</option>
+            </select>
+          </div>
+          <button id="themeToggle" class="p-2 rounded-full transition-colors dark:hover:bg-gray-800 hover:bg-gray-100">
+            <svg
+              id="moonIcon"
+              class="w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              ></path>
+            </svg>
+            <svg
+              id="sunIcon"
+              class="hidden w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+          </button>
+
+          <button
+            id="installButton"
+            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            style="display: none"
+            aria-label="Install app"
+          >
+            Install App
+          </button>
         </div>
-        <button id="themeToggle" class="p-2 rounded-full transition-colors dark:hover:bg-gray-800 hover:bg-gray-100">
-          <svg id="moonIcon"
-            class="w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-          </svg>
-          <svg id="sunIcon"
-            class="hidden w-6 h-6 dark:text-gray-400 dark:hover:text-gray-200 text-gray-600 hover:text-gray-800"
-            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-            </path>
-          </svg>
-        </button>
+      </div>
 
-        <button id="installButton"
-          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-          style="display: none" aria-label="Install app">
-          Install App
-        </button>
+      <!-- Compact Header Section -->
+      <div class="mt-8">
+        <div class="container mx-auto max-w-5xl px-4">
+          <div class="flex flex-col gap-4">
+            <!-- Header and Controls -->
+            <div class="flex flex-col md:flex-row md:items-center gap-4">
+              <div class="flex flex-col items-center md:items-start gap-1">
+                <div class="flex items-center gap-4">
+                  <img src="assets/logo.svg" alt="LifeDots Logo" class="app-logo" />
+                  <h1 class="app-title">LifeDots.app</h1>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Make Every Dot Count</p>
+              </div>
+
+              <div class="flex flex-col md:flex-row items-center md:mx-auto gap-2">
+                <div class="flex items-center gap-0.5">
+                  <input
+                    type="number"
+                    id="birthYear"
+                    class="birth-year-input"
+                    placeholder="Year"
+                    min="1900"
+                    max="2024"
+                    maxlength="4"
+                    oninput="this.value=this.value.slice(0,4)"
+                  />
+                </div>
+
+                <div class="flex items-center justify-center gap-0.5 flex-wrap">
+                  <div class="toggle-container" title="Healthy diet adds 5 years">
+                    <span class="toggle-label">
+                      <span class="toggle-icon">🥗</span>
+                    </span>
+                    <button role="switch" aria-checked="false" id="toggleHealthy" class="toggle-button">
+                      <span class="toggle-slider"></span>
+                    </button>
+                  </div>
+                  <div class="toggle-container" title="Regular exercise adds 3 years">
+                    <span class="toggle-label">
+                      <span class="toggle-icon">🏃</span>
+                    </span>
+                    <button role="switch" aria-checked="false" id="toggleExercise" class="toggle-button">
+                      <span class="toggle-slider"></span>
+                    </button>
+                  </div>
+                  <div class="toggle-container" title="Regular drinking reduces life by 2 years">
+                    <span class="toggle-label">
+                      <span class="toggle-icon">🍺</span>
+                    </span>
+                    <button role="switch" aria-checked="false" id="toggleDrink" class="toggle-button">
+                      <span class="toggle-slider"></span>
+                    </button>
+                  </div>
+                  <div class="toggle-container" title="Smoking reduces life by 10 years">
+                    <span class="toggle-label">
+                      <span class="toggle-icon">🚬</span>
+                    </span>
+                    <button role="switch" aria-checked="false" id="toggleSmoke" class="toggle-button">
+                      <span class="toggle-slider"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="relative">
+              <div class="flex flex-col md:flex-row gap-4 justify-between mt-4">
+                <div class="text-center flex-1">
+                  <h3 class="stats-caption">Current Age</h3>
+                  <p id="currentAge" class="stats-value">-</p>
+                </div>
+                <div class="text-center flex-1">
+                  <h3 class="stats-caption">Life Progress</h3>
+                  <p id="lifeProgress" class="stats-value">-</p>
+                </div>
+                <div class="text-center flex-1">
+                  <h3 class="stats-caption">Time Remaining</h3>
+                  <p id="timeRemaining" class="stats-value">-</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Motivational Message -->
+            <div class="text-center">
+              <p id="motivationalMessage" class="motivational-message"></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-center gap-4">
+              <button id="resetButton" class="action-button">Sooo long?!</button>
+              <button id="wantMoreButton" class="action-button">I want more!</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Compact Header Section -->
-    <div class="mt-8">
-      <div class="container mx-auto max-w-5xl px-4">
-        <div class="flex flex-col gap-4">
-
-          <!-- Header and Controls -->
-          <div class="flex flex-col md:flex-row md:items-center gap-4">
-            <div class="flex flex-col items-center md:items-start gap-1">
-              <div class="flex items-center gap-4">
-                <img src="assets/logo.svg" alt="LifeDots Logo" class="app-logo" />
-                <h1 class="app-title">LifeDots.app</h1>
-              </div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
-                Make Every Dot Count
-              </p>
-            </div>
-
-            <div class="flex flex-col md:flex-row items-center md:mx-auto gap-2">
-              <div class="flex items-center gap-0.5">
-                <input type="number" id="birthYear" class="birth-year-input" placeholder="Year" min="1900" max="2024"
-                  maxlength="4" oninput="this.value=this.value.slice(0,4)" />
-              </div>
-
-              <div class="flex items-center justify-center gap-0.5 flex-wrap">
-                <div class="toggle-container" title="Healthy diet adds 5 years">
-                  <span class="toggle-label">
-                    <span class="toggle-icon">🥗</span>
-                  </span>
-                  <button role="switch" aria-checked="false" id="toggleHealthy" class="toggle-button">
-                    <span class="toggle-slider"></span>
-                  </button>
-                </div>
-                <div class="toggle-container" title="Regular exercise adds 3 years">
-                  <span class="toggle-label">
-                    <span class="toggle-icon">🏃</span>
-                  </span>
-                  <button role="switch" aria-checked="false" id="toggleExercise" class="toggle-button">
-                    <span class="toggle-slider"></span>
-                  </button>
-                </div>
-                <div class="toggle-container" title="Regular drinking reduces life by 2 years">
-                  <span class="toggle-label">
-                    <span class="toggle-icon">🍺</span>
-                  </span>
-                  <button role="switch" aria-checked="false" id="toggleDrink" class="toggle-button">
-                    <span class="toggle-slider"></span>
-                  </button>
-                </div>
-                <div class="toggle-container" title="Smoking reduces life by 10 years">
-                  <span class="toggle-label">
-                    <span class="toggle-icon">🚬</span>
-                  </span>
-                  <button role="switch" aria-checked="false" id="toggleSmoke" class="toggle-button">
-                    <span class="toggle-slider"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Statistics -->
-          <div class="relative">
-            <div class="flex flex-col md:flex-row gap-4 justify-between mt-4">
-              <div class="text-center flex-1">
-                <h3 class="stats-caption">Current Age</h3>
-                <p id="currentAge" class="stats-value">-</p>
-              </div>
-              <div class="text-center flex-1">
-                <h3 class="stats-caption">Life Progress</h3>
-                <p id="lifeProgress" class="stats-value">-</p>
-              </div>
-              <div class="text-center flex-1">
-                <h3 class="stats-caption">Time Remaining</h3>
-                <p id="timeRemaining" class="stats-value">-</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Motivational Message -->
-          <div class="text-center">
-            <p id="motivationalMessage" class="motivational-message"></p>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex justify-center gap-4">
-            <button id="resetButton" class="action-button">
-              Sooo long?!
-            </button>
-            <button id="wantMoreButton" class="action-button">
-              I want more!
-            </button>
-          </div>
-
-        </div>
-      </div>
+    <div class="flex justify-center">
+      <button
+        id="toggleButton"
+        class="text-center z-[60] text-sm text-gray-900 dark:text-gray-300 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors px-4 py-2"
+      >
+        Hide
+      </button>
     </div>
-  </div>
 
-  <div class="flex justify-center">
-    <button id="toggleButton"
-      class="text-center z-[60] text-sm text-gray-900 dark:text-gray-300 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors px-4 py-2">
-      Hide
-    </button>
-  </div>
-
-  <div class="container mx-auto max-w-5xl px-4 sm:px-0 main-content">
-    <div id="dotsContainer" class="dots-container min-h-[200px] mb-8"></div>
-    <div class="text-center mt-8 mb-4">
-      <div class="epic-progress-container">
-        <div class="epic-progress-sections">
-          <div class="epic-progress-section"></div>
-          <div class="epic-progress-section"></div>
-          <div class="epic-progress-section"></div>
-          <div class="epic-progress-section"></div>
-          <div class="epic-progress-section"></div>
-        </div>
-        <div id="progressBar" class="epic-progress-bar" style="width: 45.9%"></div>
-        <div class="epic-progress-text">
-          <span id="progressPercentage">45.9%</span>
+    <div class="container mx-auto max-w-5xl px-4 sm:px-0 main-content">
+      <div id="dotsContainer" class="dots-container min-h-[200px] mb-8"></div>
+      <div class="text-center mt-8 mb-4">
+        <div class="epic-progress-container">
+          <div class="epic-progress-sections">
+            <div class="epic-progress-section"></div>
+            <div class="epic-progress-section"></div>
+            <div class="epic-progress-section"></div>
+            <div class="epic-progress-section"></div>
+            <div class="epic-progress-section"></div>
+          </div>
+          <div id="progressBar" class="epic-progress-bar" style="width: 45.9%"></div>
+          <div class="epic-progress-text">
+            <span id="progressPercentage">45.9%</span>
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
+    <!-- Footer -->
+    <footer class="text-center text-sm py-2">
+      <p>
+        &copy; <span id="currentYear"></span> LifeDots.app · Visualize Your Life Timeline &nbsp;&nbsp;<span
+          class="whitespace-nowrap"
+          >|&nbsp;&nbsp; Made with l❤️ve by
+          <a href="https://rpaby.pw/" target="_blank" class="hover:underline">rpaby.pw</a></span
+        >
+      </p>
+      <div class="mt-1">
+        <a href="/about" class="hover:underline">About</a>
+        ·
+        <a href="/privacy" class="hover:underline">Privacy</a>
+        ·
+        <a href="/terms" class="hover:underline">Terms</a>
+      </div>
+      <div class="mt-1">
+        <a href="https://crosspostingpal.com/" target="_blank" class="hover:underline"
+          >CrosspostingPal - Social Media Scheduler</a
+        >
+      </div>
+    </footer>
 
-  <!-- Footer -->
-  <footer class="text-center text-sm py-2">
-    <p>
-      &copy; <span id="currentYear"></span> LifeDots.app · Visualize
-      Your Life Timeline &nbsp;&nbsp;<span class="whitespace-nowrap">|&nbsp;&nbsp; Made with
-        l❤️ve by
-        <a href="https://rpaby.pw/" target="_blank" class="hover:underline">rpaby.pw</a></span>
-    </p>
-    <div class="mt-1">
-      <a href="/about" class="hover:underline">About</a>
-      ·
-      <a href="/privacy" class="hover:underline">Privacy</a>
-      ·
-      <a href="/terms" class="hover:underline">Terms</a>
-    </div>
-  </footer>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/pwa.js"></script>
 
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/pwa.js"></script>
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            // Unregister any existing service workers first
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            for (let registration of registrations) {
+              await registration.unregister();
+            }
 
-  <!-- PWA Service Worker Registration -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", async () => {
-        try {
-          // Unregister any existing service workers first
-          const registrations =
-            await navigator.serviceWorker.getRegistrations();
-          for (let registration of registrations) {
-            await registration.unregister();
-          }
-
-          // Register new service worker
-          const registration = await navigator.serviceWorker.register(
-            "/service-worker.js",
-            {
+            // Register new service worker
+            const registration = await navigator.serviceWorker.register("/service-worker.js", {
               scope: "/",
               type: "module",
-            }
-          );
-          console.log(
-            "ServiceWorker registration successful with scope:",
-            registration.scope
-          );
-        } catch (err) {
-          console.error("ServiceWorker registration failed:", err);
-        }
-      });
-    } else {
-      console.warn("Service workers are not supported");
-    }
-  </script>
+            });
+            console.log("ServiceWorker registration successful with scope:", registration.scope);
+          } catch (err) {
+            console.error("ServiceWorker registration failed:", err);
+          }
+        });
+      } else {
+        console.warn("Service workers are not supported");
+      }
+    </script>
 
-  <script>
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
-  </script>
+    <script>
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+    </script>
 
-  <script src="https://beamanalytics.b-cdn.net/beam.min.js" data-token="cc5d27f9-1adb-4f7f-b69e-2a2e9950833c"
-    async defer onerror="console.warn('Analytics failed to load - this is non-critical')"></script>
+    <script
+      src="https://beamanalytics.b-cdn.net/beam.min.js"
+      data-token="cc5d27f9-1adb-4f7f-b69e-2a2e9950833c"
+      async
+      defer
+      onerror="console.warn('Analytics failed to load - this is non-critical')"
+    ></script>
 
-  <script>
-    document.getElementById('resetButton').addEventListener('click', function() {
-      // Create and add bomb emoji
-      const bomb = document.createElement('div');
-      bomb.textContent = '💣';
-      bomb.className = 'bomb-animation';
-      document.body.appendChild(bomb);
+    <script>
+      document.getElementById("resetButton").addEventListener("click", function () {
+        // Create and add bomb emoji
+        const bomb = document.createElement("div");
+        bomb.textContent = "💣";
+        bomb.className = "bomb-animation";
+        document.body.appendChild(bomb);
 
-      // Add explosion effect after bomb drops
-      setTimeout(() => {
-        bomb.remove();
-        
-        // Create explosion
-        const explosion = document.createElement('div');
-        explosion.className = 'explosion';
-        document.body.appendChild(explosion);
-
-        // Create multiple shockwaves
-        for (let i = 0; i < 3; i++) {
-          const shockwave = document.createElement('div');
-          shockwave.className = 'shockwave';
-          shockwave.style.animationDelay = `${i * 0.2}s`;
-          document.body.appendChild(shockwave);
-        }
-
-        // Screen shake effect
-        document.body.style.animation = 'shake 0.5s ease-in-out';
-
-        // Create message element if it doesn't exist
-        let messageEl = document.querySelector('.fate-message');
-        if (!messageEl) {
-          messageEl = document.createElement('div');
-          messageEl.className = 'fate-message';
-          messageEl.innerHTML = 'BOOM! 💥<br>Are you still there? Sorry, you cannot escape your fate! 😈';
-          document.body.appendChild(messageEl);
-        }
-
-        // Show message after explosion
+        // Add explosion effect after bomb drops
         setTimeout(() => {
-          messageEl.style.display = 'block';
-          // Add some screen shake
-          document.body.style.animation = 'none';
-          document.body.offsetHeight; // Trigger reflow
-          document.body.style.animation = 'shake 0.5s ease-in-out';
-          
+          bomb.remove();
+
+          // Create explosion
+          const explosion = document.createElement("div");
+          explosion.className = "explosion";
+          document.body.appendChild(explosion);
+
+          // Create multiple shockwaves
+          for (let i = 0; i < 3; i++) {
+            const shockwave = document.createElement("div");
+            shockwave.className = "shockwave";
+            shockwave.style.animationDelay = `${i * 0.2}s`;
+            document.body.appendChild(shockwave);
+          }
+
+          // Screen shake effect
+          document.body.style.animation = "shake 0.5s ease-in-out";
+
+          // Create message element if it doesn't exist
+          let messageEl = document.querySelector(".fate-message");
+          if (!messageEl) {
+            messageEl = document.createElement("div");
+            messageEl.className = "fate-message";
+            messageEl.innerHTML = "BOOM! 💥<br>Are you still there? Sorry, you cannot escape your fate! 😈";
+            document.body.appendChild(messageEl);
+          }
+
+          // Show message after explosion
           setTimeout(() => {
-            messageEl.style.display = 'none';
-            // Remove explosion and shockwave elements
-            explosion.remove();
-            document.querySelectorAll('.shockwave').forEach(wave => wave.remove());
-          }, 5000);
-        }, 800);
-      }, 1500);
-    });
-  </script>
+            messageEl.style.display = "block";
+            // Add some screen shake
+            document.body.style.animation = "none";
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.animation = "shake 0.5s ease-in-out";
 
-  <script>
-    document.getElementById('wantMoreButton').addEventListener('click', async function() {
-      try {
-        // Get current location and life expectancy
-        const currentLocation = await LocationUtils.detectCountry();
-        const currentLifeExpectancy = currentLocation.lifeExpectancy;
+            setTimeout(() => {
+              messageEl.style.display = "none";
+              // Remove explosion and shockwave elements
+              explosion.remove();
+              document.querySelectorAll(".shockwave").forEach((wave) => wave.remove());
+            }, 5000);
+          }, 800);
+        }, 1500);
+      });
+    </script>
 
-        // Get all life expectancies and filter for better ones
-        const betterCountries = Object.entries(LocationUtils.getAllLifeExpectancies())
-          .filter(([_, expectancy]) => expectancy > currentLifeExpectancy)
-          .map(([code, expectancy]) => ({
-            code,
-            bonus: Math.round((expectancy - currentLifeExpectancy) * 10) / 10,
-            expectancy
-          }))
-          .sort((a, b) => b.bonus - a.bonus);
+    <script>
+      document.getElementById("wantMoreButton").addEventListener("click", async function () {
+        try {
+          // Get current location and life expectancy
+          const currentLocation = await LocationUtils.detectCountry();
+          const currentLifeExpectancy = currentLocation.lifeExpectancy;
 
-        // Create and add plane emoji
-        const plane = document.createElement('div');
-        plane.textContent = '✈️';
-        plane.className = 'plane-animation';
-        document.body.appendChild(plane);
+          // Get all life expectancies and filter for better ones
+          const betterCountries = Object.entries(LocationUtils.getAllLifeExpectancies())
+            .filter(([_, expectancy]) => expectancy > currentLifeExpectancy)
+            .map(([code, expectancy]) => ({
+              code,
+              bonus: Math.round((expectancy - currentLifeExpectancy) * 10) / 10,
+              expectancy,
+            }))
+            .sort((a, b) => b.bonus - a.bonus);
 
-        // Create message element if it doesn't exist
-        let messageEl = document.querySelector('.country-message');
-        if (!messageEl) {
-          messageEl = document.createElement('div');
-          messageEl.className = 'country-message';
-          document.body.appendChild(messageEl);
-        }
+          // Create and add plane emoji
+          const plane = document.createElement("div");
+          plane.textContent = "✈️";
+          plane.className = "plane-animation";
+          document.body.appendChild(plane);
 
-        // Show message after plane reaches center
-        setTimeout(() => {
-          // Handle case when no better country is found
-          if (betterCountries.length === 0) {
-            messageEl.innerHTML = `
+          // Create message element if it doesn't exist
+          let messageEl = document.querySelector(".country-message");
+          if (!messageEl) {
+            messageEl = document.createElement("div");
+            messageEl.className = "country-message";
+            document.body.appendChild(messageEl);
+          }
+
+          // Show message after plane reaches center
+          setTimeout(() => {
+            // Handle case when no better country is found
+            if (betterCountries.length === 0) {
+              messageEl.innerHTML = `
               <h3 style="font-size: 24px; margin-bottom: 10px;">🏆 Congratulations! 🏆</h3>
               <p>You're already living in one of the countries with the highest life expectancy!</p>
               <p style="margin-top: 10px; font-size: 16px;">Current life expectancy: ${currentLifeExpectancy} years</p>
               <p style="margin-top: 5px; font-size: 14px; opacity: 0.8;">Keep up the good work! 🌟</p>
             `;
-          } else {
-            // Select a random country from top 10 choices
-            const topChoices = betterCountries.slice(0, Math.min(10, betterCountries.length));
-            const country = topChoices[Math.floor(Math.random() * topChoices.length)];
-            
-            const countryName = new Intl.DisplayNames(['en'], { type: 'region' }).of(country.code);
-            // Create flag emoji from country code
-            const flagEmoji = country.code
-              ? String.fromCodePoint(...[...country.code].map(c => c.charCodeAt(0) + 127397))
-              : '';
-            
-            messageEl.innerHTML = `
+            } else {
+              // Select a random country from top 10 choices
+              const topChoices = betterCountries.slice(0, Math.min(10, betterCountries.length));
+              const country = topChoices[Math.floor(Math.random() * topChoices.length)];
+
+              const countryName = new Intl.DisplayNames(["en"], { type: "region" }).of(country.code);
+              // Create flag emoji from country code
+              const flagEmoji = country.code
+                ? String.fromCodePoint(...[...country.code].map((c) => c.charCodeAt(0) + 127397))
+                : "";
+
+              messageEl.innerHTML = `
               <h3 style="font-size: 24px; margin-bottom: 10px;">✨ Life Hack Found! ✨</h3>
               <p>Moving to ${countryName} ${flagEmoji} could give you <strong>+${country.bonus} years</strong> of life expectancy!</p>
               <p style="margin-top: 10px; font-size: 16px;">Time to pack your bags? 🧳</p>
               <p style="margin-top: 5px; font-size: 14px; opacity: 0.8;">Their life expectancy: ${country.expectancy} years</p>
             `;
-          }
-          messageEl.style.display = 'block';
-          
-          setTimeout(() => {
-            messageEl.style.display = 'none';
-          }, 6000);
-        }, 3500);
-      } catch (error) {
-        console.error('Error while finding life hack:', error);
-      }
-    });
-  </script>
-</body>
+            }
+            messageEl.style.display = "block";
 
+            setTimeout(() => {
+              messageEl.style.display = "none";
+            }, 6000);
+          }, 3500);
+        } catch (error) {
+          console.error("Error while finding life hack:", error);
+        }
+      });
+    </script>
+  </body>
 </html>
